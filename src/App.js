@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Home from './Pages/Home'
+import Adopt from './Pages/Adopt'
+import Volunteer from './Pages/Volunteer'
+import Sponsor from './Pages/Sponsor'
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      page: 0,
+    }
+  }
+  handleStateChange = page => {
+    this.setState({page:page})
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        {(this.state.page===0) ? <Home action={this.handleStateChange}/> : null}
+        {(this.state.page===1) ? <Volunteer action={this.handleStateChange}/> : null}
+        {(this.state.page===2) ? <Adopt action={this.handleStateChange}/> : null}
+        {(this.state.page===3) ? <Sponsor action={this.handleStateChange}/> : null}
       </div>
     );
   }
