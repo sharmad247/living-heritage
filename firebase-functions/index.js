@@ -3,27 +3,29 @@ const cors = require('cors')({origin: true})
 const admin = require('firebase-admin')
 var geofirex = require('geofirex');
 
-
+// Init firebase-admin SDK with acc credentials
 var serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-const geo = geofirex.init(admin);
+const geo = geofirex.init(admin); //Init geofirex with firebase project
 
-
-exports.postData = functions.https.onRequest((req, res)=>{
- cors(req, res, ()=>{
+// Firebase cloud function with URL: <project url>/postData
+//POST request function to post all tree-data
+// x-www-form-urlencoded method
+exports.postData = functions.https.onRequest((req, res)=>{   
+ cors(req, res, ()=>{ // Cross-origin-Resource-Sharinf=g
 
 
 
 
     if(req.method === 'POST'){
 
-        var docID = req.body.lat + '_' + req.body.long;
-        const trees = geo.collection('trees');
+        var docID = req.body.lat + '_' + req.body.long;  //Tree ID = lat_long
+        const trees = geo.collection('trees');  //Collection ID = 'trees'
     
-        const point = geo.point(Number(req.body.lat), Number(req.body.long));
+        const point = geo.point(Number(req.body.lat), Number(req.body.long));   //Convert lat long to geohash
     
         trees.setDoc(docID, { 
             genericName: req.body.generic_name,
@@ -36,7 +38,7 @@ exports.postData = functions.https.onRequest((req, res)=>{
             fruit: req.body.fruit,
             position: point.data,
             
-    
+            // Environmental Checkups acc to google doc 
             cutBranches: req.body.cut_branches,
             sap: req.body.sap,
             branchCrack: req.body.cracked_branches,
@@ -78,7 +80,8 @@ exports.postData = functions.https.onRequest((req, res)=>{
  
 })
 
-
+//POST method to get querying parameters.
+// Returns all markers within radius
 exports.getData = functions.https.onRequest((req, res)=>{
 
     cors(req, res, ()=>{
