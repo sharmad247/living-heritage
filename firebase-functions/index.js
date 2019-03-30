@@ -90,8 +90,9 @@ exports.getData = functions.https.onRequest((req, res)=>{
         var userLong = Number(req.body.userLong);
         const center = geo.point(userLat, userLong);
         const radius = Number(req.body.radius);
+        const field = 'position'
     
-        const query = geo.collection('trees').within(center, radius);
+        const query = geo.collection('trees').within(center, radius, field);
     
         if(req.method === 'POST'){
             res.send(query)
