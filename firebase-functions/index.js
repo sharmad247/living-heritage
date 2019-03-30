@@ -92,17 +92,19 @@ exports.getData = functions.https.onRequest((req, res)=>{
         const radius = Number(req.body.radius);
         const field = 'position'
     
-        const query = geo.collection('trees').within(center, radius, field);
-    
-        if(req.method === 'POST'){
-            res.send(query)
-        }else{
-            res.status(500).json({
-                message: 'Invalid Request'
-            })
-        }
+        const query = geo.collection('trees').within(center, radius, field);  //query is an Observable
 
-    })
+        query.subscribe(data=>{
+            res.send(data)},
+            (err)=>{
+                res.send('error:'+ err)
+            },
+            (results)=>{
+                res.send(results)
+            }
+        )
 
+}
+)
 }
 )
