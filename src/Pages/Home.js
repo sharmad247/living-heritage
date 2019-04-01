@@ -1,15 +1,16 @@
 import React from 'react'
 import Header from '../Components/Header'
 import Navbar from '../Components/Navbar';
-import Map from '../Components/Map'
+
 import FAB from '../Components/FAB'
+import MapContainer from '../Components/Map'
 
 export default function Home(props) {
   return (
     <div>
       <Header />
       <div className="ContainerStyle">
-        <Map />
+        <MapContainer />
       </div>
       <FAB />
       <Navbar action={props.action} value={0} />

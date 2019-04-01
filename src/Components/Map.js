@@ -1,71 +1,53 @@
-import React, { Component } from "react"
-import { compose } from "recompose"
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker,
-  InfoWindow
-} from "react-google-maps"
+import React, { Component } from 'react';
+import { GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 
-const MapWithAMarker = compose(withScriptjs, withGoogleMap)(props => {
+import CurrentLocation from './CurrentLocation';
 
-  return (
-    <GoogleMap defaultZoom={8} defaultCenter={{ lat: 29.5, lng: -95 }}>
-      {props.markers.map(marker => {
-        const onClick = props.onClick.bind(this, marker)
-        return (
-          <Marker
-            key={marker.id}
-            onClick={onClick}
-            position={{ lat: marker.latitude, lng: marker.longitude }}
-          >
-            {props.selectedMarker === marker &&
-              <InfoWindow>
-                <div>
-                  {marker.shelter}
-                </div>
-              </InfoWindow>
-            }
-          </Marker>
-        )
-      })}
-    </GoogleMap>
-  )
-})
+export class MapContainer extends Component {
+  state = {
+    showingInfoWindow: false,
+    activeMarker: {},
+    selectedPlace: {}
+  };
 
-export default class ShelterMap extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      shelters: [],
-      selectedMarker: false
+  onMarkerClick = (props, marker, e) =>
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+
+  onClose = props => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      });
     }
-  }
-  componentDidMount() {
-    fetch("https://api.harveyneeds.org/api/v1/shelters?limit=20")
-      .then(r => r.json())
-      .then(data => {
-        this.setState({ shelters: data.shelters })
-      })
-  }
-  handleClick = (marker, event) => {
-    // console.log({ marker })
-    this.setState({ selectedMarker: marker })
-  }
-  render() {
-    let height = window.innerHeight - 112;
+  };
 
+  render() {
     return (
-      <MapWithAMarker
-        selectedMarker={this.state.selectedMarker}
-        markers={this.state.shelters}
-        onClick={this.handleClick}
-        googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-        loadingElement={<div style={{ height: `100%` }} />}
-        containerElement={<div style={{ height: height }} />}
-        mapElement={<div style={{ height: `100%` }} />}
-      />
-    )
+      <CurrentLocation
+        centerAroundCurrentLocation
+        google={this.props.google}
+      >
+        <Marker onClick={this.onMarkerClick} name={'current location'} />
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}
+          onClose={this.onClose}
+        >
+          <div>
+            <h4>{this.state.selectedPlace.name}</h4>
+          </div>
+        </InfoWindow>
+      </CurrentLocation>
+    );
   }
 }
+
+
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo'
+})(MapContainer);

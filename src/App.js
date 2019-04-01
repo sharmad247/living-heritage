@@ -5,6 +5,11 @@ import Volunteer from './Pages/Volunteer'
 import Sponsor from './Pages/Sponsor'
 import './App.css';
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import teal from '@material-ui/core/colors/teal';
+import blue from '@material-ui/core/colors/blue';
+
+
 class App extends Component {
   constructor() {
     super()
@@ -12,17 +17,24 @@ class App extends Component {
       page: 0,
     }
   }
+  
   handleStateChange = page => {
     this.setState({page:page})
   }
   render() {
+    const theme = createMuiTheme({
+      palette: {
+        primary: teal,
+        secondary: blue,
+      },
+    });
     return (
-      <div>
+      <MuiThemeProvider theme={theme}>
         {(this.state.page===0) ? <Home action={this.handleStateChange}/> : null}
         {(this.state.page===1) ? <Volunteer action={this.handleStateChange}/> : null}
         {(this.state.page===2) ? <Adopt action={this.handleStateChange}/> : null}
         {(this.state.page===3) ? <Sponsor action={this.handleStateChange}/> : null}
-      </div>
+      </MuiThemeProvider>
     );
   }
 }

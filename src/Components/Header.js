@@ -16,6 +16,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
+import logo from '../Assets/logo.png'
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -50,12 +52,9 @@ class Header extends Component {
         const sideList = (
           <div className={this.state.classes.list}>
             <List>
-              {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
+                <ListItem key="logo">
+                    <img alt="logo" width='200' src={logo}></img>
                 </ListItem>
-              ))}
             </List>
             <Divider />
             <List>
