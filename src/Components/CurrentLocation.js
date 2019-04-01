@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-let mapHeight = window.screen.height - 112
+let mapHeight = document.documentElement.clientHeight - 112
 
 const mapStyles = {
     map: {
