@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+let mapHeight = window.screen.height - 112
+
 const mapStyles = {
     map: {
       position: 'absolute',
       width: '100%',
-      height: '100%'
+      height: mapHeight
     }
   };
 
@@ -79,7 +81,8 @@ export class CurrentLocation extends React.Component {
             {},
             {
               center: center,
-              zoom: zoom
+              zoom: zoom,
+              disableDefaultUI: true
             }
           );
     
