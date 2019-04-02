@@ -1,16 +1,16 @@
 const functions = require('firebase-functions');
-const cors = require('cors')({origin: true})
+const cors = require('cors')({origin: true})     //Required for Cross Origin Resource Sharing
 const admin = require('firebase-admin')
-const geofirestore = require('geofirestore');
+const geofirestore = require('geofirestore');  //geofirestore.js is a geoquerying library wrapper for Firestore
 
 
-var serviceAccount = require('./serviceAccountKey.json');
+var serviceAccount = require('./serviceAccountKey.json');  //Firebase project credentials
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
 
-const defaultFirestore = admin.firestore();
+const defaultFirestore = admin.firestore();  //Load Firestore
 
 // Create a Firestore reference for Geofirestore 
 const  geoFirestore = new geofirestore.GeoFirestore(defaultFirestore);
@@ -18,7 +18,7 @@ const  geoFirestore = new geofirestore.GeoFirestore(defaultFirestore);
 const geoCollection = geoFirestore.collection('trees');
 
 
-exports.postData = functions.https.onRequest((req, res)=>{
+exports.postData = functions.https.onRequest((req, res)=>{    //POST method to send data to Firestore. Structure is as follows
   cors(req, res, ()=>{
  
  
@@ -40,7 +40,7 @@ exports.postData = functions.https.onRequest((req, res)=>{
              flower: req.body.flower,
              fruit: req.body.fruit,
             },
-            healthChecks: {
+            healthChecks: {  //Boolean values
              cutBranches: req.body.cut_branches,  //Do you see broken or cut branches.
              sap: req.body.sap,                    //Do you see sap oozing out from the tree trunk.
              branchCrack: req.body.cracked_branches,   //Do you see holes or cracks in the branches or tree.
@@ -54,7 +54,7 @@ exports.postData = functions.https.onRequest((req, res)=>{
              construction: req.body.construction, //Perimeter or construction built around the tree.
              branchesCut: req.body.branchesCut,  //Branches cut for electrical wires
             },
-            environmentalRisks: {
+            environmentalRisks: {  //Boolean values
              overgrownBranches: req.body.overgrownBranches,  //Overgrown branches close to electric/telephone wires.
              cutTrees: req.body.cutTrees, //Signs of other trees being cut down in the area.
              landBurn: req.body.landBurn, //Land being cleared by burning.
@@ -68,7 +68,7 @@ exports.postData = functions.https.onRequest((req, res)=>{
              perimeterProperty: req.body.perimeterProperty, //Tree located at the perimeter of the property.
              forest: req.body.forest,  //Tree in a forest.
             },
-             coordinates: new admin.firestore.GeoPoint(lat, long)
+             coordinates: new admin.firestore.GeoPoint(lat, long)  //Store as GeoPoint data type. (required for Geofirestore to make queries
             }).then((docRef)=>{
                 return console.log(docRef)
             }).catch((err)=>{
@@ -100,9 +100,9 @@ exports.getData = functions.https.onRequest((req, res)=>{
             var userLat = Number(req.body.userLat)
             var userLong = Number(req.body.userLong)
 
-            var query = geoCollection.near({ center: new admin.firestore.GeoPoint(userLat, userLong), radius: radius });
+            var query = geoCollection.near({ center: new admin.firestore.GeoPoint(userLat, userLong), radius: radius }); //Returns a promise containing all Documents within given constraints
 
-            query.get().then((snap)=>{
+            query.get().then((snap)=>{  
                 return res.send(snap.docs)
             }).catch((err)=>{
                 throw res.send(err)
