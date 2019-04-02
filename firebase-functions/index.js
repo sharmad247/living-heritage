@@ -74,6 +74,10 @@ exports.postData = functions.https.onRequest((req, res)=>{    //POST method to s
             }).catch((err)=>{
                 throw console.log(err)
             })
+       
+               res.status(200).json({
+                message: 'Data was sent'
+                 })
  
      }else{
          res.status(500).json({
