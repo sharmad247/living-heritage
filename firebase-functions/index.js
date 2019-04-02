@@ -107,7 +107,7 @@ exports.getData = functions.https.onRequest((req, res)=>{
             var query = geoCollection.near({ center: new admin.firestore.GeoPoint(userLat, userLong), radius: radius }); //Returns a promise containing all Documents within given constraints
 
             query.get().then((snap)=>{  
-                return res.send(snap.docs)
+                return res.send(snap._querySnapshot)  //returns a JSON object containing all the desired documents and metadata 
             }).catch((err)=>{
                 throw res.send(err)
             })
