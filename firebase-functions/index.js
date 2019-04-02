@@ -62,8 +62,8 @@ exports.postData = functions.https.onRequest((req, res)=>{    //POST method to s
              industrial: req.body.industrial,  //Trees located near industrial lands.
              publicLand: req.body.publicLand, //Tree on public land.
              widened: req.body.widened, //Tree on an inner road likely to be widened.
-             habitatedPrivate: req.body.habitatedPrivate,  //Tree in an inhabited private property.
-             unhabitatedPrivate: req.body.unhabitatedPrivate,  //Tree in an habited private property.
+             inhabitedPrivate: req.body.inhabitedPrivate,  //Tree in an inhabited private property.
+             uninhabitedPrivate: req.body.uninhabitedPrivate,  //Tree in an habited private property.
              centerProperty: req.body.centerProperty,  //Tree located in the center of the property
              perimeterProperty: req.body.perimeterProperty, //Tree located at the perimeter of the property.
              forest: req.body.forest,  //Tree in a forest.
