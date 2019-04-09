@@ -5,9 +5,9 @@ import ComingSoon from './ComingSoon';
 
 export default function Sponsor(props) {
   return (
-    <div className="ContainerStyle">
+    <div>
       <Header />
-      <ComingSoon title="Donate" />
+      <ComingSoon title="Donate"/>
       <Navbar action={props.action} value={3}/>
     </div>
   )

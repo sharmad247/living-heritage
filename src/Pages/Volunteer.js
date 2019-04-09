@@ -5,9 +5,9 @@ import ComingSoon from './ComingSoon';
 
 export default function Volunteer(props) {
   return (
-    <div className="ContainerStyle">
+    <div>
       <Header />
-      <ComingSoon title="Volunteer" />
+      <ComingSoon title="Volunteer"/>
       <Navbar action={props.action} value={1}/>
     </div>
   )
