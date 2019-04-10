@@ -9,8 +9,8 @@ export default function Home(props) {
   return (
     <div>
       <Header />
-      <div className="ContainerStyle">
-        <Route exact path="/" component={ComingSoon} />
+      <div>
+        <Route exact path="/" component={ComingSoon} className="ContainerStyle"/>
         <Route path="/add" component={Add} />
       </div>
       <Route exact path="/" render={() => <Navbar action={props.action} value={0} />} />
