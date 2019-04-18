@@ -27,6 +27,9 @@ class App extends Component {
         primary: teal,
         secondary: blue,
       },
+      typography: {
+        useNextVariants: true,
+      },
     });
     return (
       <MuiThemeProvider theme={theme}>

@@ -3,9 +3,9 @@
 }
 
 .ContainerStyle {
-  margin-top: 56px;
+  padding-top: 56px;
   margin-bottom: 56px;
-
+  flex-grow: 1;
 }
 
 .ComingSoon {
