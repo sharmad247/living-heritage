@@ -4,8 +4,7 @@
 
 .ContainerStyle {
   padding-top: 56px;
-  margin-bottom: 56px;
-  flex-grow: 1;
+  padding-bottom: 56px;
 }
 
 .ComingSoon {

@@ -4,10 +4,11 @@ import Data from '../Assets/MockData'
 import FAB from '../Components/FAB'
 import {Link} from 'react-router-dom'
 
-let mapHeight = document.documentElement.clientHeight - 112
+let mapHeight = window.innerHeight - 112
 
 class Map extends Component {
   render() {
+      console.log(mapHeight)
      return (
          <div>
              <LoadScript
@@ -24,8 +25,8 @@ class Map extends Component {
                     center={{lat: -28.024, lng: 140.887}}
                     options={{
                         disableDefaultUI: true,
+                        gestureHandling: 'greedy'
                     }}
-                    mapContainerClassName="ContainerStyle"
                 >
                     <MarkerClusterer
                         options={{imagePath:"https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"}}
