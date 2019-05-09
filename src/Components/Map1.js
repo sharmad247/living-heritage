@@ -4,10 +4,19 @@ import FAB from '../Components/FAB'
 import { Link } from 'react-router-dom'
 import TreeInfoBox from '../Components/TreeInfoBox'
 import cMarker from '../Assets/tree.png'
-
+import GpsFixed from '@material-ui/icons/GpsFixed';
+import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
 
 let mapHeight = window.innerHeight - 112
-let map, marker
+let map, marker, GeoMarker
+
+const styles = theme => ({
+    button: {
+      margin: theme.spacing.unit,
+    }
+  });
+
 
 class Map extends PureComponent {
 
@@ -25,7 +34,8 @@ class Map extends PureComponent {
                 lat: 15.72,
                 lng: 72.89
             },
-            currentTreeName: "Default"
+            currentTreeName: "Default",
+            userPosition: null
         }
     }
 
@@ -39,7 +49,6 @@ class Map extends PureComponent {
         if(this.state.showBox)
             map.panTo(this.state.currentTreePosition)
     }
-
 
     componentDidMount() {
         map = new window.google.maps.Map(document.getElementById('map'), {
@@ -77,18 +86,25 @@ class Map extends PureComponent {
         // Add a marker clusterer to manage the markers.
         var markerCluster = new window.MarkerClusterer(map, markers,
             { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' })
-
-        var GeoMarker = new window.GeolocationMarker(map);
-        GeoMarker.setCircleOptions({fillColor: '#8db5f8', strokeColor: '#4285F4'});
+        
+            GeoMarker = new window.GeolocationMarker(map);
+            GeoMarker.setCircleOptions({fillColor: '#8db5f8', strokeColor: '#4285F4'});
     }
 
 
+    handleCentre = () => {
+        map.panTo(GeoMarker.getPosition())
+    }
+
     render() {
         return (
-            <div>
+            <div >
                 <div id="map" style={{ height: mapHeight }}>
                     {(this.state.showBox) ? <TreeInfoBox name={this.state.currentTreeName}/> : null}
                 </div>
+                <Fab color="gray" aria-label="Center" size="small" className="GpsFix" onClick={this.handleCentre}>
+                    <GpsFixed />
+                </Fab>
                 <Link to="/add">
                     {(!this.state.showBox) ? <FAB /> : null}
                 </Link>
