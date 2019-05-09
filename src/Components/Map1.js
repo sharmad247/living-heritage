@@ -4,7 +4,6 @@ import Data from '../Assets/MockData'
 import FAB from '../Components/FAB'
 import { Link } from 'react-router-dom'
 import TreeInfoBox from '../Components/TreeInfoBox'
-import cMarker from '../Assets/pin.png'
 
 let mapHeight = window.innerHeight - 112
 
@@ -36,17 +35,14 @@ class Map extends PureComponent {
         this.setState({currentTreeName: name})
     }
 
-
     render() {
-        // console.log(mapHeight)
-        // console.log(this.state.showBox)
-
+        console.log(mapHeight)
+        console.log(this.state.showBox)
         return (
             <div>      
                 <LoadScript
                     id="script-loader"
                     googleMapsApiKey="AIzaSyBcgesjU679eYckA_hjskGYKfqmhK3gMuI"
-                    loadingElement="GoogleMap"
                 >
                     <GoogleMap
                         id="marker-example"
@@ -62,15 +58,7 @@ class Map extends PureComponent {
                         }}
                     >
                         <MarkerClusterer
-
-                            styles={[		
-                                {		
-                                  url: cMarker,		
-                                  height: 30,		
-                                  width: 30,		
-                                  fontFamily:"Lato",		
-                                  textColor:"#FFF",		
-                               }]}
+                            options={{ imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m" }}
                         >
                             {
                                 (clusterer) => Data.docs.map((item) => (
