@@ -1,13 +1,16 @@
 import React, { PureComponent } from 'react'
-import { GoogleMap, LoadScript, MarkerClusterer, Marker } from '@react-google-maps/api'
 import Data from '../Assets/MockData'
 import FAB from '../Components/FAB'
 import { Link } from 'react-router-dom'
 import TreeInfoBox from '../Components/TreeInfoBox'
+import cMarker from '../Assets/tree.png'
+
 
 let mapHeight = window.innerHeight - 112
+let map, marker
 
 class Map extends PureComponent {
+
     constructor(props) {
         super(props)
         this.state = {
@@ -33,62 +36,62 @@ class Map extends PureComponent {
         this.setState({currentTreeID: id})
         this.setState({currentTreePosition: position})
         this.setState({currentTreeName: name})
+        if(this.state.showBox)
+            map.panTo(this.state.currentTreePosition)
     }
 
+
+    componentDidMount() {
+        map = new window.google.maps.Map(document.getElementById('map'), {
+            center: { lat: 15.42, lng: 73.82 },
+            zoom: 12,
+            disableDefaultUI: true,
+            gestureHandling: 'greedy'
+        });
+
+
+        // Add some markers to the map.
+        var markers = Data.docs.map((item) => {
+            //console.log(item)
+            marker = new window.google.maps.Marker({
+                position: {
+                    lat: item.data.coordinates._latitude,
+                    lng: item.data.coordinates._longitude
+                },
+                id: item.data.id,
+                icon: cMarker
+            });
+            marker.addListener('click', () => {
+                this.handleClick(
+                    item.id,
+                    {
+                        lat: item.data.coordinates._latitude,
+                        lng: item.data.coordinates._longitude
+                    },
+                    item.data.info.genericName
+                )}
+            );
+            return marker
+        });
+
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new window.MarkerClusterer(map, markers,
+            { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' })
+
+        var GeoMarker = new window.GeolocationMarker(map);
+        GeoMarker.setCircleOptions({fillColor: '#8db5f8', strokeColor: '#4285F4'});
+    }
+
+
     render() {
-        console.log(mapHeight)
-        console.log(this.state.showBox)
         return (
-            <div>      
-                <LoadScript
-                    id="script-loader"
-                    googleMapsApiKey="AIzaSyBcgesjU679eYckA_hjskGYKfqmhK3gMuI"
-                >
-                    <GoogleMap
-                        id="marker-example"
-                        mapContainerStyle={{
-                            height: mapHeight,
-                            width: "100%"
-                        }}
-                        zoom={4}
-                        center={this.state.currentTreePosition}
-                        options={{
-                            disableDefaultUI: true,
-                            gestureHandling: 'greedy',
-                        }}
-                    >
-                        <MarkerClusterer
-                            options={{ imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m" }}
-                        >
-                            {
-                                (clusterer) => Data.docs.map((item) => (
-                                    <Marker
-                                        key={item.id}
-                                        position= {
-                                            {
-                                                lat: item.data.coordinates._latitude,
-                                                lng: item.data.coordinates._longitude
-                                            }                  
-                                        }
-                                        clusterer={clusterer}
-                                        onClick={()=> {this.handleClick(
-                                            item.id,
-                                            {
-                                                lat: item.data.coordinates._latitude,
-                                                lng: item.data.coordinates._longitude
-                                            },
-                                            item.data.info.genericName
-                                        )}}
-                                    />
-                                ))
-                            }
-                        </MarkerClusterer>
-                    </GoogleMap>
-                </LoadScript>
+            <div>
+                <div id="map" style={{ height: mapHeight }}>
+                    {(this.state.showBox) ? <TreeInfoBox name={this.state.currentTreeName}/> : null}
+                </div>
                 <Link to="/add">
-                    <FAB />
+                    {(!this.state.showBox) ? <FAB /> : null}
                 </Link>
-                {(this.state.showBox) ? <TreeInfoBox name={this.state.currentTreeName}/> : null}
             </div>
         )
     }
