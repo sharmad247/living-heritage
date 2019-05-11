@@ -35,3 +35,12 @@
   width: 100%;
   height: 100%;
 }
+
+#boxImg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.TreeInfo {
+  min-height: 100%;
+}

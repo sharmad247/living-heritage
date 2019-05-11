@@ -5,18 +5,10 @@ import { Link } from 'react-router-dom'
 import TreeInfoBox from '../Components/TreeInfoBox'
 import cMarker from '../Assets/tree.png'
 import GpsFixed from '@material-ui/icons/GpsFixed';
-import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
 
 let mapHeight = window.innerHeight - 112
 let map, marker, GeoMarker
-
-const styles = theme => ({
-    button: {
-      margin: theme.spacing.unit,
-    }
-  });
-
 
 class Map extends PureComponent {
 
@@ -24,7 +16,7 @@ class Map extends PureComponent {
         super(props)
         this.state = {
             showBox: false,
-            treeData: {},
+            currentTreeData: null,
             currentTreeID: 0,
             currentTreePosition: {
                 lat: 15.72,
@@ -35,19 +27,21 @@ class Map extends PureComponent {
                 lng: 72.89
             },
             currentTreeName: "Default",
-            userPosition: null
+            userPosition: null,
         }
     }
 
 
-    handleClick = (id, position, name) => {
-        if(id === this.state.currentTreeID || this.state.showBox === false)
-            this.setState({showBox: !this.state.showBox})
-        this.setState({currentTreeID: id})
-        this.setState({currentTreePosition: position})
-        this.setState({currentTreeName: name})
+    handleClick = (treeData) => {
+        if(treeData.id === this.state.currentTreeID || this.state.showBox === false)
+            this.setState({showBox: !this.state.showBox,
+                currentTreeData: treeData,
+            })
+        this.setState({
+            currentTreeData: treeData,
+        })
         if(this.state.showBox)
-            map.panTo(this.state.currentTreePosition)
+            map.panTo({lat: this.state.currentTreeData.data.coordinates._latitude, lng: this.state.currentTreeData.data.coordinates._longitude})
     }
 
     componentDidMount() {
@@ -61,7 +55,6 @@ class Map extends PureComponent {
 
         // Add some markers to the map.
         var markers = Data.docs.map((item) => {
-            //console.log(item)
             marker = new window.google.maps.Marker({
                 position: {
                     lat: item.data.coordinates._latitude,
@@ -72,6 +65,7 @@ class Map extends PureComponent {
             });
             marker.addListener('click', () => {
                 this.handleClick(
+                    {...item},
                     item.id,
                     {
                         lat: item.data.coordinates._latitude,
@@ -83,8 +77,13 @@ class Map extends PureComponent {
             return marker
         });
 
+        map.addListener('click', () => {
+            this.setState({showBox: false})
+        });
+
+
         // Add a marker clusterer to manage the markers.
-        var markerCluster = new window.MarkerClusterer(map, markers,
+        new window.MarkerClusterer(map, markers,
             { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' })
         
             GeoMarker = new window.GeolocationMarker(map);
@@ -96,13 +95,14 @@ class Map extends PureComponent {
         map.panTo(GeoMarker.getPosition())
     }
 
+
     render() {
         return (
             <div >
                 <div id="map" style={{ height: mapHeight }}>
-                    {(this.state.showBox) ? <TreeInfoBox name={this.state.currentTreeName}/> : null}
+                    {(this.state.showBox) ? <TreeInfoBox {...this.state.currentTreeData} /> : null}
                 </div>
-                <Fab color="gray" aria-label="Center" size="small" className="GpsFix" onClick={this.handleCentre}>
+                <Fab color="secondary" aria-label="Center" size="small" className="GpsFix" onClick={this.handleCentre}>
                     <GpsFixed />
                 </Fab>
                 <Link to="/add">
