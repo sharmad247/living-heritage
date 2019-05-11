@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react'
 import Data from '../Assets/MockData'
 import FAB from '../Components/FAB'
-import { Link } from 'react-router-dom'
 import TreeInfoBox from '../Components/TreeInfoBox'
 import cMarker from '../Assets/tree.png'
 import GpsFixed from '@material-ui/icons/GpsFixed';
 import Fab from '@material-ui/core/Fab';
+import AddTreeBox from './AddTreeBox';
 
 let mapHeight = window.innerHeight - 112
-let map, marker, GeoMarker
+let map, marker, markers, GeoMarker
 
 class Map extends PureComponent {
 
@@ -33,7 +33,7 @@ class Map extends PureComponent {
 
 
     handleClick = (treeData) => {
-        if(treeData.id === this.state.currentTreeID || this.state.showBox === false)
+        if(this.state.showBox === false || treeData.id === this.state.currentTreeData.id)
             this.setState({showBox: !this.state.showBox,
                 currentTreeData: treeData,
             })
@@ -45,6 +45,10 @@ class Map extends PureComponent {
     }
 
     componentDidMount() {
+        this.renderMap()
+    }
+
+    renderMap() {
         map = new window.google.maps.Map(document.getElementById('map'), {
             center: { lat: 15.42, lng: 73.82 },
             zoom: 12,
@@ -54,7 +58,7 @@ class Map extends PureComponent {
 
 
         // Add some markers to the map.
-        var markers = Data.docs.map((item) => {
+            markers = Data.docs.map((item) => {
             marker = new window.google.maps.Marker({
                 position: {
                     lat: item.data.coordinates._latitude,
@@ -90,11 +94,32 @@ class Map extends PureComponent {
             GeoMarker.setCircleOptions({fillColor: '#8db5f8', strokeColor: '#4285F4'});
     }
 
-
     handleCentre = () => {
         map.panTo(GeoMarker.getPosition())
     }
 
+    handleAdd = () => {
+        this.clearMarkers()
+        this.setState({showAddBox: true})
+    }
+
+    setMapOnAll = (map) => {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+    }
+
+    clearMarkers = () => {
+        this.setMapOnAll(null);
+    }
+
+    handleCancel = () =>
+    {
+        this.setState({
+            showAddBox: false,
+        })
+    }
+    
 
     render() {
         return (
@@ -105,9 +130,9 @@ class Map extends PureComponent {
                 <Fab color="secondary" aria-label="Center" size="small" className="GpsFix" onClick={this.handleCentre}>
                     <GpsFixed />
                 </Fab>
-                <Link to="/add">
-                    {(!this.state.showBox) ? <FAB /> : null}
-                </Link>
+
+                {(!this.state.showBox && !this.state.showAddBox) ? <FAB onClick={this.handleAdd} /> : null}
+                {(!this.state.showBox && this.state.showAddBox) ? <AddTreeBox map={map} handleCancel={this.handleCancel}/> : null}
             </div>
         )
     }

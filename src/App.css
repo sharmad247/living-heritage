@@ -44,3 +44,9 @@
 .TreeInfo {
   min-height: 100%;
 }
+
+.buttons {
+  flex-grow: 1;
+  width: 100%;
+  justify-content: space-between;
+}
