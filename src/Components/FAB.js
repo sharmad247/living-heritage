@@ -20,7 +20,7 @@ function FAB(props) {
   const { classes } = props;
   return (
     <div>
-      <Fab color="primary" aria-label="Add" className={classes.fab}>
+      <Fab color="primary" aria-label="Add" onClick={props.onClick} className={classes.fab}>
         <AddIcon />
       </Fab>
     </div>

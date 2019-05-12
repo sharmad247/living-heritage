@@ -24,4 +24,29 @@
   max-width: 700px;
 }
 
+.GpsFix {
+  top: 36px;
+  right: 28px;
+  float: right;
+}
 
+#map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#boxImg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.TreeInfo {
+  min-height: 100%;
+}
+
+.buttons {
+  flex-grow: 1;
+  width: 100%;
+  justify-content: space-between;
+}
