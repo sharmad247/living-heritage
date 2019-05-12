@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@google/markerclustererplus": "^2.1.11",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "@react-google-maps/api": "^1.2.2",
