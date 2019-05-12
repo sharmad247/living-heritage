@@ -13,7 +13,6 @@ const styles = theme => ({
 function TreeInfo(props) {
   const { classes } = props;
   const treeData = {...props.location.treedata}
-  console.log(treeData)
   return (
     <div>
       {treeData.id}

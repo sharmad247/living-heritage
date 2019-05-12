@@ -7,8 +7,10 @@ import GpsFixed from '@material-ui/icons/GpsFixed';
 import Fab from '@material-ui/core/Fab';
 import AddTreeBox from './AddTreeBox';
 
+
 let mapHeight = window.innerHeight - 112
 let map, marker, markers, GeoMarker
+
 
 class Map extends PureComponent {
 
@@ -33,15 +35,16 @@ class Map extends PureComponent {
 
 
     handleClick = (treeData) => {
-        if(this.state.showBox === false || treeData.id === this.state.currentTreeData.id)
-            this.setState({showBox: !this.state.showBox,
+        if (this.state.showBox === false || treeData.id === this.state.currentTreeData.id)
+            this.setState({
+                showBox: !this.state.showBox,
                 currentTreeData: treeData,
             })
         this.setState({
             currentTreeData: treeData,
         })
-        if(this.state.showBox)
-            map.panTo({lat: this.state.currentTreeData.data.coordinates._latitude, lng: this.state.currentTreeData.data.coordinates._longitude})
+        if (this.state.showBox)
+            map.panTo({ lat: this.state.currentTreeData.data.coordinates._latitude, lng: this.state.currentTreeData.data.coordinates._longitude })
     }
 
     componentDidMount() {
@@ -58,7 +61,7 @@ class Map extends PureComponent {
 
 
         // Add some markers to the map.
-            markers = Data.docs.map((item) => {
+        markers = Data.docs.map((item) => {
             marker = new window.google.maps.Marker({
                 position: {
                     lat: item.data.coordinates._latitude,
@@ -69,29 +72,33 @@ class Map extends PureComponent {
             });
             marker.addListener('click', () => {
                 this.handleClick(
-                    {...item},
+                    { ...item },
                     item.id,
                     {
                         lat: item.data.coordinates._latitude,
                         lng: item.data.coordinates._longitude
                     },
                     item.data.info.genericName
-                )}
+                )
+            }
             );
             return marker
         });
 
         map.addListener('click', () => {
-            this.setState({showBox: false})
+            this.setState({ showBox: false })
         });
 
 
         // Add a marker clusterer to manage the markers.
         new window.MarkerClusterer(map, markers,
-            { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' })
-        
-            GeoMarker = new window.GeolocationMarker(map);
-            GeoMarker.setCircleOptions({fillColor: '#8db5f8', strokeColor: '#4285F4'});
+            {
+                minimumClusterSize: 10,
+                imagePath: '/cluster/m'
+            })
+
+        GeoMarker = new window.GeolocationMarker(map);
+        GeoMarker.setCircleOptions({ fillColor: '#8db5f8', strokeColor: '#4285F4' });
     }
 
     handleCentre = () => {
@@ -100,12 +107,12 @@ class Map extends PureComponent {
 
     handleAdd = () => {
         this.clearMarkers()
-        this.setState({showAddBox: true})
+        this.setState({ showAddBox: true })
     }
 
     setMapOnAll = (map) => {
         for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(map);
+            markers[i].setMap(map);
         }
     }
 
@@ -113,13 +120,12 @@ class Map extends PureComponent {
         this.setMapOnAll(null);
     }
 
-    handleCancel = () =>
-    {
+    handleCancel = () => {
         this.setState({
             showAddBox: false,
         })
     }
-    
+
 
     render() {
         return (
@@ -132,7 +138,7 @@ class Map extends PureComponent {
                 </Fab>
 
                 {(!this.state.showBox && !this.state.showAddBox) ? <FAB onClick={this.handleAdd} /> : null}
-                {(!this.state.showBox && this.state.showAddBox) ? <AddTreeBox map={map} handleCancel={this.handleCancel}/> : null}
+                {(!this.state.showBox && this.state.showAddBox) ? <AddTreeBox map={map} handleCancel={this.handleCancel} /> : null}
             </div>
         )
     }

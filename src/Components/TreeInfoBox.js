@@ -29,7 +29,7 @@ function TreeInfoBox(props) {
                 <Paper className={classes.root} elevation={1}>
                     <Grid container spacing={24}>
                         <Grid item xs={3}>
-                            <img id="boxImg" src="https://via.placeholder.com/150?text=Tree+Photo"></img>
+                            <img id="boxImg" alt="cover" src="https://via.placeholder.com/150?text=Tree+Photo"></img>
                         </Grid>
                         <Grid item xs={9}>
                             <Typography variant="h5" component="h3">
