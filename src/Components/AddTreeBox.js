@@ -1,13 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
-
-const MyLink = props => <Link to="/addtree" {...props} />
-
 
 const styles = theme => ({
     root: {
@@ -31,7 +28,14 @@ const styles = theme => ({
 
 function AddTreeBox(props) {
 
-    let marker, count=0
+    let marker = null
+
+    let markerFlag = true
+
+    let [buttonDisabled, setDisabled] = useState(true);
+
+    const MyLink = (props) => <Link to="/addtree" {...props} />
+
 
     let addMarker = (location, map) => {
         marker = new window.google.maps.Marker({
@@ -39,21 +43,24 @@ function AddTreeBox(props) {
             map: map,
             draggable: true
         });
+        setDisabled(false)
     }
 
     let handleCancel = () => {
-        marker.setMap(null);
+        if (marker !== null)
+            marker.setMap(null);
         props.handleCancel()
     }
 
     const { classes } = props;
 
     props.map.addListener('click', function(event) {
-        if(count===0) {
+        if(markerFlag) {
             addMarker(event.latLng, props.map)
-            count++
+            markerFlag = false
         }
-    });
+        window.google.maps.event.clearListeners(props.map, 'click');
+    })
 
     return (
         <div className="ContainerStyle">
@@ -67,7 +74,7 @@ function AddTreeBox(props) {
                     <Button variant="outlined" onClick={handleCancel}>
                         Cancel
                     </Button>
-                    <Button variant="outlined" component={MyLink} className={classes.next}>
+                    <Button disabled={buttonDisabled} variant="outlined" component={MyLink} className={classes.next}>
                         Next
                     </Button>
                 </div>

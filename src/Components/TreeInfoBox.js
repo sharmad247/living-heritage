@@ -35,7 +35,7 @@ function TreeInfoBox(props) {
                             <Typography variant="h5" component="h3">
                                 {treeData.data.info.genericName}
                             </Typography>
-                            <Typography component="p">
+                            <Typography component="span">
                                 {treeData.data.info.scientificName}
                             </Typography>
                         </Grid>

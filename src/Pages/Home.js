@@ -3,7 +3,7 @@ import Header from '../Components/Header'
 import Navbar from '../Components/Navbar'
 import {Route} from 'react-router-dom'
 import Add from './Add'
-import Map1 from '../Components/Map1'
+import Map from '../Components/Map'
 import TreeInfo from './TreeInfo'
 
 export default function Home(props) {
@@ -11,7 +11,7 @@ export default function Home(props) {
     <div>
       <Header />
       <div className="ContainerStyle">
-        <Route exact path="/" component={Map1}/>
+        <Route exact path="/" component={Map}/>
         <Route path="/add" component={Add}/>
         <Route path="/treeinfo" component={TreeInfo}/>
       </div>
