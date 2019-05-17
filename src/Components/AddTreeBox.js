@@ -25,10 +25,9 @@ const styles = theme => ({
     }
 });
 
+let marker = null
 
 function AddTreeBox(props) {
-
-    let marker = null
 
     let markerFlag = true
 
@@ -37,18 +36,21 @@ function AddTreeBox(props) {
     const MyLink = (props) => <Link to="/addtree" {...props} />
 
 
-    let addMarker = (location, map) => {
+    let addMarker = (location) => {
         marker = new window.google.maps.Marker({
             position: location,
-            map: map,
+            map: props.map,
             draggable: true
         });
         setDisabled(false)
+        window.google.maps.event.clearListeners(props.map, 'click');
     }
 
     let handleCancel = () => {
         if (marker !== null)
+        {
             marker.setMap(null);
+        }
         props.handleCancel()
     }
 
@@ -56,10 +58,9 @@ function AddTreeBox(props) {
 
     props.map.addListener('click', function(event) {
         if(markerFlag) {
-            addMarker(event.latLng, props.map)
+            addMarker(event.latLng)
             markerFlag = false
         }
-        window.google.maps.event.clearListeners(props.map, 'click');
     })
 
     return (
