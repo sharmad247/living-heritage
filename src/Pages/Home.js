@@ -12,7 +12,7 @@ export default function Home(props) {
       <Header />
       <div className="ContainerStyle">
         <Route exact path="/" component={Map}/>
-        <Route path="/add" component={Add}/>
+        <Route path="/addtree" component={Add}/>
         <Route path="/treeinfo" component={TreeInfo}/>
       </div>
       <Route exact path="/" render={() => <Navbar action={props.action} value={0} />} />
