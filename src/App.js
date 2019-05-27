@@ -9,18 +9,18 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
 import blue from '@material-ui/core/colors/blue';
 
-
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      page: 0,
+      page: 0
     }
   }
   
   handleStateChange = page => {
     this.setState({page:page})
   }
+  
   render() {
     const theme = createMuiTheme({
       palette: {

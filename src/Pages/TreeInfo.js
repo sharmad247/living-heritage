@@ -17,12 +17,12 @@ class TreeInfo extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      treeData : {...props.location.treedata}
+      treeData : {...props.location.treedata},
+      hasError: false
     }
   }
 
   render() {
-    console.log(this.state.treeData)
     return (
       <React.Fragment>
         <List>
