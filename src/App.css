@@ -54,3 +54,13 @@
   width: 100%;
   justify-content: space-between;
 }
+
+.SignIn {
+  text-align: center;
+  height: 100vh;
+  padding: auto
+}
+
+.SignIn > img {
+  margin-top: 50%
+}

@@ -9,6 +9,20 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
 import blue from '@material-ui/core/colors/blue';
 
+
+import withFirebaseAuth from 'react-with-firebase-auth'
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import Config from './FirebaseConfig';
+import SignIn from './Pages/SignIn';
+
+
+let firebaseApp = firebase.initializeApp(Config);
+let firebaseAppAuth = firebaseApp.auth();
+let providers = {
+    googleProvider: new firebase.auth.GoogleAuthProvider(),
+};
+
 class App extends Component {
   constructor() {
     super()
@@ -22,6 +36,11 @@ class App extends Component {
   }
   
   render() {
+
+    const {
+      user
+    } = this.props;
+
     const theme = createMuiTheme({
       palette: {
         primary: teal,
@@ -31,15 +50,29 @@ class App extends Component {
         useNextVariants: true,
       },
     });
-    return (
-      <MuiThemeProvider theme={theme}>
-        {(this.state.page===0) ? <Home action={this.handleStateChange}/> : null}
+
+
+    const authUser = <MuiThemeProvider theme={theme}>
+        {(this.state.page===0) ? <Home action={this.handleStateChange} {...this.props}/> : null}
         {(this.state.page===1) ? <Volunteer action={this.handleStateChange}/> : null}
         {(this.state.page===2) ? <Adopt action={this.handleStateChange}/> : null}
         {(this.state.page===3) ? <Sponsor action={this.handleStateChange}/> : null}
-      </MuiThemeProvider>
+    </MuiThemeProvider>
+
+    const unauthUser = <MuiThemeProvider theme={theme}>
+      <SignIn {...this.props}/>
+    </MuiThemeProvider>
+
+    return (
+      <div>
+        {user ? authUser : unauthUser}
+      </div>
+      
     );
   }
 }
 
-export default App;
+export default withFirebaseAuth({
+  providers,
+  firebaseAppAuth,
+})(App);
