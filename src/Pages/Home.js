@@ -9,7 +9,7 @@ import TreeInfo from './TreeInfo'
 export default function Home(props) {
   return (
     <div>
-      {props.user ? <Header user={props.user} signout={props.signOut}/> : null}
+      <Header user={props.user} signout={props.signOut}/>
       <div className="ContainerStyle">
         <Route exact path="/" component={Map}/>
         <Route path="/addtree" component={Add}/>

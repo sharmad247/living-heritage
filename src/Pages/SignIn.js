@@ -20,6 +20,4 @@ class SignIn extends Component {
     }
 }
 
-//export default withStyles(styles)(SignIn);
-
 export default SignIn

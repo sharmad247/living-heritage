@@ -6,7 +6,7 @@ import ComingSoon from './ComingSoon';
 export default function Volunteer(props) {
   return (
     <div>
-      <Header />
+      <Header user={props.user} signout={props.signOut}/>
       <ComingSoon title="Volunteer"/>
       <Navbar action={props.action} value={1}/>
     </div>
