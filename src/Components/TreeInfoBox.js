@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom'
+import { trackPromise } from 'react-promise-tracker';
+import Spinner from './LoadingSpinner';
 
 const styles = theme => ({
     root: {
@@ -18,33 +20,68 @@ const styles = theme => ({
     },
 });
 
-function TreeInfoBox(props) {
-    const { classes, ...treeData } = props;
-    return (
-        <div className="ContainerStyle">
-            <Link to={{
-                pathname: "/treeinfo",
-                treedata: {...treeData}
-            }}>
-                <Paper className={classes.root} elevation={1}>
-                    <Grid container spacing={24}>
-                        <Grid item xs={3}>
-                            <img id="boxImg" alt="cover" src="https://via.placeholder.com/150?text=Tree+Photo"></img>
+
+class TreeInfoBox extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            treeData: {},
+            id: this.props.id
+        }
+    }
+
+    firebaseDb = this.props.firebaseApp.firestore()
+    content = null
+    tree = null
+    componentDidMount() {
+        this.tree = this.firebaseDb.collection('trees').doc(this.state.id.toString())
+        this.fetchTree()
+    }
+
+    fetchTree = () => {
+            trackPromise(
+                this.tree.get().then(doc => {
+                    let temp = doc.data()
+                    this.content = <div>
+                        <Typography variant="h5" component="h3">
+                            {temp.info.genericName}
+                        </Typography>
+                        <Typography component="span">
+                            {temp.info.scientificName}
+                        </Typography>
+                    </div>
+                    this.setState({ treeData: temp })
+                }) , 'infobox'
+            )
+            this.forceUpdate()
+    }
+
+    render() {
+        const { classes } = this.props
+        return (
+            <div className="ContainerStyle">
+                <Link to={{
+                    pathname: "/treeinfo",
+                    treedata: {...this.state.treeData},
+                    firebaseApp: this.props.firebaseApp
+                }}>
+                    <Spinner area="infobox" />
+                    <Paper className={classes.root} elevation={1}>
+                        <Grid container spacing={24}>
+                            <Grid item xs={3}>
+                                <img id="boxImg" alt="cover" src="https://via.placeholder.com/150?text=Tree+Photo"></img>
+                            </Grid>
+                            <Grid item xs={9}>
+                                {this.content}
+                            </Grid>
                         </Grid>
-                        <Grid item xs={9}>
-                            <Typography variant="h5" component="h3">
-                                {treeData.data.info.genericName}
-                            </Typography>
-                            <Typography component="span">
-                                {treeData.data.info.scientificName}
-                            </Typography>
-                        </Grid>
-                    </Grid> 
-                </Paper>
-            </Link>
-        </div>
-    );
+                    </Paper>
+                </Link>
+            </div>
+        )
+    }
 }
+
 
 TreeInfoBox.propTypes = {
     classes: PropTypes.object.isRequired,

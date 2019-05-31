@@ -2,8 +2,9 @@
   text-align: center;
 }
 
-.body {
-  overscroll-behavior-y: contain;
+html,
+body {
+    overscroll-behavior-y: contain;
 }
 
 .ContainerStyle {
@@ -32,6 +33,7 @@
   top: 36px;
   right: 28px;
   float: right;
+  position: fixed;
 }
 
 #map {
@@ -62,5 +64,6 @@
 }
 
 .SignIn > img {
-  margin-top: 50%
+  margin-top: 50%;
 }
+

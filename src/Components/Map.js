@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react'
-import Data from '../Assets/MockData'
+import { trackPromise } from 'react-promise-tracker';
 import FAB from './FAB'
 import TreeInfoBox from './TreeInfoBox'
 import cMarker from '../Assets/tree.png'
 import GpsFixed from '@material-ui/icons/GpsFixed';
 import Fab from '@material-ui/core/Fab';
 import AddTreeBox from './AddTreeBox';
+import Spinner from './LoadingSpinner';
 
 
 let mapHeight = window.innerHeight - 112
-let map, marker, markers, GeoMarker
+let map, marker, markers, GeoMarker, Data
 
 
 class Map extends PureComponent {
@@ -31,17 +32,23 @@ class Map extends PureComponent {
         if (this.state.showBox === false || treeData.id === this.state.currentTreeData.id)
             this.setState({
                 showBox: !this.state.showBox,
-                currentTreeData: treeData,
+                currentTreeData: treeData
             })
         this.setState({
-            currentTreeData: treeData,
+            currentTreeData: treeData
         })
-        if (this.state.showBox)
-            map.panTo({ lat: this.state.currentTreeData.data.coordinates._latitude, lng: this.state.currentTreeData.data.coordinates._longitude })
+        map.panTo({ lat: this.state.currentTreeData.pos.lat, lng: this.state.currentTreeData.pos.long })
     }
 
     componentDidMount() {
-        this.renderMap()
+        let firebaseDb = this.props.firebaseApp.firestore()
+        var fetchAll = firebaseDb.collection('index').doc('mapload')
+        trackPromise(
+            fetchAll.get().then(doc => {
+                Data = doc.data().data
+                this.renderMap()
+            }), 'map'
+        )
     }
 
     renderMap() {
@@ -53,26 +60,19 @@ class Map extends PureComponent {
             clickableIcons: false 
         });
 
-
         // Add some markers to the map.
-        markers = Data.docs.map((item) => {
+        markers = Data.map((item) => {
             marker = new window.google.maps.Marker({
                 position: {
-                    lat: item.data.coordinates._latitude,
-                    lng: item.data.coordinates._longitude
+                    lat: item.pos.lat,
+                    lng: item.pos.long
                 },
-                id: item.data.id,
+                id: item.id,
                 icon: cMarker
             });
             marker.addListener('click', () => {
                 this.handleClick(
-                    { ...item },
-                    item.id,
-                    {
-                        lat: item.data.coordinates._latitude,
-                        lng: item.data.coordinates._longitude
-                    },
-                    item.data.info.genericName
+                    { ...item }
                 )
             }
             );
@@ -97,6 +97,7 @@ class Map extends PureComponent {
 
     handleCentre = () => {
         map.panTo(GeoMarker.getPosition())
+        map.setZoom(14)
     }
 
     handleAdd = () => {
@@ -123,9 +124,10 @@ class Map extends PureComponent {
 
     render() {
         return (
-            <div >
+            <div>
+                <Spinner area="map"/>
                 <div id="map" style={{ height: mapHeight }}>
-                    {(this.state.showBox) ? <TreeInfoBox {...this.state.currentTreeData} /> : null}
+                    {(this.state.showBox) ? <TreeInfoBox key={this.state.currentTreeData.id} id={this.state.currentTreeData.id} firebaseApp={this.props.firebaseApp}/> : null}
                 </div>
                 <Fab color="secondary" aria-label="Center" size="small" className="GpsFix" onClick={this.handleCentre}>
                     <GpsFixed />
@@ -133,6 +135,7 @@ class Map extends PureComponent {
 
                 {(!this.state.showBox && !this.state.showAddBox) ? <FAB onClick={this.handleAdd} /> : null}
                 {(!this.state.showBox && this.state.showAddBox) ? <AddTreeBox map={map} handleCancel={this.handleCancel} /> : null}
+
             </div>
         )
     }

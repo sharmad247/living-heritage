@@ -8,14 +8,14 @@ import TreeInfo from './TreeInfo'
 
 export default function Home(props) {
   return (
-    <div>
+    <React.Fragment>
       <Header user={props.user} signout={props.signOut}/>
       <div className="ContainerStyle">
-        <Route exact path="/" component={Map}/>
+        <Route exact path="/" render={() => <Map firebaseApp={props.firebaseApp}/>}/>
         <Route path="/addtree" component={Add}/>
         <Route path="/treeinfo" component={TreeInfo}/>
       </div>
       <Route exact path="/" render={() => <Navbar action={props.action} value={0} />} />
-    </div>
+    </React.Fragment>
   )
 }

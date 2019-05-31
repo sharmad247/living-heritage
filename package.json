@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.0.10",
     "@google/markerclustererplus": "^2.1.11",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
@@ -11,8 +12,11 @@
     "formik": "^1.5.4",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-promise-tracker": "^2.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
+    "react-simple-storage": "^1.4.1",
+    "react-spinners": "^0.5.4",
     "react-with-firebase-auth": "^1.0.3"
   },
   "scripts": {
