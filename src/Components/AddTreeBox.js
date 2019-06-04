@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
+import useForceUpdate from 'use-force-update';
 
 const styles = theme => ({
     root: {
@@ -26,14 +27,25 @@ const styles = theme => ({
 });
 
 let marker = null
+let pos
 
 function AddTreeBox(props) {
+    console.log(props.firebaseApp)
+    let fb= props.firebaseApp
+    console.log(fb)
 
     let markerFlag = true
 
     let [buttonDisabled, setDisabled] = useState(true);
 
-    const MyLink = (props) => <Link to="/addtree" {...props} />
+    const forceUpdate = useForceUpdate()
+
+
+    let MyLink = (props) => <Link   to={{
+        pathname: "/addtree",
+        position: pos,
+        firebaseApp: fb
+      }} {...props} />
 
 
     let addMarker = (location) => {
@@ -42,8 +54,15 @@ function AddTreeBox(props) {
             map: props.map,
             draggable: true
         });
+        pos = location.toJSON()
         setDisabled(false)
         window.google.maps.event.clearListeners(props.map, 'click');
+        marker.addListener('position_changed', function(event) {
+            let temp = marker.getPosition()
+            pos = temp.toJSON()
+            forceUpdate()
+        })
+        console.log(pos)
     }
 
     let handleCancel = () => {

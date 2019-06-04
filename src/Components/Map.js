@@ -134,7 +134,7 @@ class Map extends PureComponent {
                 </Fab>
 
                 {(!this.state.showBox && !this.state.showAddBox) ? <FAB onClick={this.handleAdd} /> : null}
-                {(!this.state.showBox && this.state.showAddBox) ? <AddTreeBox map={map} handleCancel={this.handleCancel} /> : null}
+                {(!this.state.showBox && this.state.showAddBox) ? <AddTreeBox map={map} handleCancel={this.handleCancel} firebaseApp={this.props.firebaseApp} /> : null}
 
             </div>
         )

@@ -291,7 +291,7 @@ class TreeInfo extends Component {
             this.state.treeData.environmentalRisks.overgrownBranches ?
             <ListItem >
                 <ListItemText
-                  secondary="Tree has overgrown branches." 
+                  secondary="Overgrown branches close to electric/telephone wires." 
                 />
             </ListItem> :
             null

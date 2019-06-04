@@ -62,8 +62,7 @@ class TreeInfoBox extends Component {
             <div className="ContainerStyle">
                 <Link to={{
                     pathname: "/treeinfo",
-                    treedata: {...this.state.treeData},
-                    firebaseApp: this.props.firebaseApp
+                    treedata: {...this.state.treeData}
                 }}>
                     <Spinner area="infobox" />
                     <Paper className={classes.root} elevation={1}>
