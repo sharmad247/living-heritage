@@ -6,14 +6,14 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-//import AutoSuggest from '../Components/FieldAutosuggest';
+import AutoSuggest from '../Components/FieldAutosuggest';
 import Input from '@material-ui/core/Input';
 import { Checkbox, List, ListItem, ListItemText, Fab } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
-//import * as admin from 'firebase-admin'
 import uuidv1 from 'uuid/v1'
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import CommSciMap from './../Components/CommSciMap'
 
 const styles = theme => ({
   root: {
@@ -38,15 +38,17 @@ const styles = theme => ({
   }
 });
 
+let SciName
+
 class SimpleExpansionPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
       genericName: '',
       scientificName: '',
-      diameter: null,
-      height: null,
-      canopyHeight: null,
+      diameter: '',
+      height: '',
+      canopyHeight: '',
       fruit: false,
       flower: false,
       sap: false,
@@ -129,7 +131,7 @@ class SimpleExpansionPanel extends Component {
           construction: this.state.construction, //t/f, //Perimeter or construction built around the tree.
         },
         updates: {
-          // createdUser: //UUID,
+          //createdUser: //UUID,
           //createdTime = new Date(), //timezone?,
           //updatedUser : tree["Updated By"],
           //updatedAt : tree["Updated At"],
@@ -145,6 +147,13 @@ class SimpleExpansionPanel extends Component {
     )
   }
 
+  nameCallback = (CommonName) => {
+    this.setState({genericName: CommonName})
+    CommonName = CommonName.replace(/ +/g, "")
+    SciName = CommSciMap[CommonName]
+    this.setState({scientificName: SciName})
+  }
+
   render() {
 
     const { classes } = this.props;
@@ -157,17 +166,7 @@ class SimpleExpansionPanel extends Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <div className={classes.container}>
-
-              <Input
-                onChange={this.handleChange}
-                placeholder="Common Name"
-                className={classes.input}
-                inputProps={{
-                  'aria-label': 'CommonName',
-                }}
-                fullWidth
-                name="genericName"
-              />
+              <AutoSuggest nameCallback={this.nameCallback}/>
               <Input
                 onChange={this.handleChange}
                 placeholder="Scientific Name"
@@ -177,6 +176,7 @@ class SimpleExpansionPanel extends Component {
                 }}
                 fullWidth
                 name="scientificName"
+                value={this.state.scientificName}
               />
               <Input
                 onChange={this.handleChange}
