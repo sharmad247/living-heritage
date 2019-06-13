@@ -19,9 +19,10 @@ serviceWorker.register();
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js', {
-        scope: './'
+        scope: './',
     }).then(function (registration) {
         var serviceWorker;
+        registration.update()
         if (registration.installing) {
             serviceWorker = registration.installing;
         } else if (registration.waiting) {
