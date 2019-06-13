@@ -60,7 +60,8 @@ class Map extends PureComponent {
             clickableIcons: false,
             mapTypeControl: true,
             mapTypeControlOptions: {
-                mapTypeIds: ['hybrid', 'roadmap', 'satellite']
+                mapTypeIds: ['hybrid', 'roadmap', 'satellite'],
+                style: window.google.maps.MapTypeControlStyle.DROPDOWN_MENU
             }
         });
 
