@@ -57,7 +57,11 @@ class Map extends PureComponent {
             zoom: 12,
             disableDefaultUI: true,
             gestureHandling: 'greedy',
-            clickableIcons: false 
+            clickableIcons: false,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                mapTypeIds: ['hybrid', 'roadmap', 'satellite']
+            }
         });
 
         // Add some markers to the map.
