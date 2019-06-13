@@ -136,7 +136,18 @@ class SimpleExpansionPanel extends Component {
           //updatedUser : tree["Updated By"],
           //updatedAt : tree["Updated At"],
         },
-
+        environmentalRisks: {
+          overgrownBranches: this.state.overgrownBranches, //t/f,  //Overgrown branches close to electric/telephone wires.
+          cutTrees: this.state.cutBranches, //t/f, //Signs of other trees being cut down in the area.
+          highway: this.state.highway, //t/f,  //Tree on a highway stretch.
+          industrial: this.state.industrial, //t/f,  //Trees located near industrial lands.
+          publicLand: this.state.publicLand, //t/f, //Tree on public land.
+          widened: this.state.widened,//t/f, //Tree on an inner road likely to be widened.
+          inhabitedPrivate: this.state.inhabitedPrivate, //t/f,  //Tree in an inhabited private property.
+          uninhabitedPrivate: this.state.uninhabitedPrivate, //t/f,  //Tree in an habited private property.
+          centerProperty: this.state.centerProperty, //t/f,  //Tree located in the center of the property
+          perimeterProperty: this.state.perimeterProperty //t/f, //Tree located at the perimeter of the property.
+         },
         coordinates: {
           lat: pos.lat,
           lng: pos.lng
