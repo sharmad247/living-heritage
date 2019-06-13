@@ -47,6 +47,7 @@ class SimpleExpansionPanel extends Component {
       genericName: '',
       scientificName: '',
       diameter: '',
+      circumference: '',
       height: '',
       canopyHeight: '',
       fruit: false,
@@ -113,7 +114,7 @@ class SimpleExpansionPanel extends Component {
           // age: null,
           flower: this.state.flower, //true/false,
           fruit: this.state.fruit, //true/false,
-          diameter: this.state.diameter, //num,
+          diameter: this.state.circumference/3.1415, //num,
           height: this.state.height, //num,
           canopyHeight: this.state.canopyHeight, //num,
         },
@@ -191,13 +192,25 @@ class SimpleExpansionPanel extends Component {
               />
               <Input
                 onChange={this.handleChange}
-                placeholder="Diameter (in inches)"
+                placeholder="Circumference (in inches)"
+                className={classes.input}
+                inputProps={{
+                  'aria-label': 'Circumference',
+                }}
+                fullWidth
+                name="circumference"
+              />
+              <Input
+                onChange={this.handleChange}
+                placeholder="0 in"
                 className={classes.input}
                 inputProps={{
                   'aria-label': 'Diameter',
                 }}
                 fullWidth
                 name="diameter"
+                disabled
+                value={this.state.circumference/3.1415}
               />
               <Input
                 onChange={this.handleChange}
@@ -219,7 +232,6 @@ class SimpleExpansionPanel extends Component {
                 fullWidth
                 name="canopyHeight"
               />
-
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
