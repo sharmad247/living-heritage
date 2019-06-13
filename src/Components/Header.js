@@ -62,6 +62,9 @@ class Header extends Component {
                 <ListItem button onClick={this.props.signout}>
                   <ListItemText primary="Sign Out" />
                 </ListItem>
+                <ListItem button onClick={()=>{window.location.reload(true)}}>
+                  <ListItemText primary="Refresh App" />
+                </ListItem>
             </List>
           </div>
         );
