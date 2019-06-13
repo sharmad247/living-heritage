@@ -22,7 +22,6 @@ if ('serviceWorker' in navigator) {
         scope: './',
     }).then(function (registration) {
         var serviceWorker;
-        registration.update()
         if (registration.installing) {
             serviceWorker = registration.installing;
         } else if (registration.waiting) {

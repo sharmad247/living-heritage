@@ -46,8 +46,7 @@ class SimpleExpansionPanel extends Component {
     this.state = {
       genericName: '',
       scientificName: '',
-      diameter: '',
-      circumference: '',
+      diameter: null,
       height: '',
       canopyHeight: '',
       fruit: false,
@@ -189,6 +188,7 @@ class SimpleExpansionPanel extends Component {
                 fullWidth
                 name="scientificName"
                 value={this.state.scientificName}
+                required
               />
               <Input
                 onChange={this.handleChange}
@@ -210,7 +210,7 @@ class SimpleExpansionPanel extends Component {
                 fullWidth
                 name="diameter"
                 disabled
-                value={this.state.circumference/3.1415}
+                value={!this.state.circumference ? "Diameter" : (this.state.circumference/3.1415).toFixed(2) + " in"}
               />
               <Input
                 onChange={this.handleChange}
