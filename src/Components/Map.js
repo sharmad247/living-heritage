@@ -7,10 +7,11 @@ import GpsFixed from '@material-ui/icons/GpsFixed';
 import Fab from '@material-ui/core/Fab';
 import AddTreeBox from './AddTreeBox';
 import Spinner from './LoadingSpinner';
+import SimpleStorage from 'react-simple-storage'
 
 
 let mapHeight = window.innerHeight - 112
-let map, marker, markers, GeoMarker, Data
+let map, marker, markers, GeoMarker, Data, fetchAll=null
 
 
 class Map extends PureComponent {
@@ -20,10 +21,11 @@ class Map extends PureComponent {
         this.state = {
             showBox: false,
             currentTreeData: null,
-            initialPosition: {
+            centre: {
                 lat: 15.72,
-                lng: 72.89
-            }
+                lng: 73.89
+            },
+            zoom: 8
         }
     }
 
@@ -32,17 +34,24 @@ class Map extends PureComponent {
         if (this.state.showBox === false || treeData.id === this.state.currentTreeData.id)
             this.setState({
                 showBox: !this.state.showBox,
-                currentTreeData: treeData
+                currentTreeData: treeData,
+                centre: { lat: treeData.pos.lat, lng: treeData.pos.long },
+                zoom: map.getZoom()
             })
         this.setState({
-            currentTreeData: treeData
+            currentTreeData: treeData,
+            centre: { lat: treeData.pos.lat, lng: treeData.pos.long },
+            zoom: map.getZoom()
         })
-        map.panTo({ lat: this.state.currentTreeData.pos.lat, lng: this.state.currentTreeData.pos.long })
+        map.panTo({ lat: treeData.pos.lat, lng: treeData.pos.long })
     }
 
     componentDidMount() {
-        let firebaseDb = this.props.firebaseApp.firestore()
-        var fetchAll = firebaseDb.collection('index').doc('mapload')
+        if(!fetchAll) {
+            console.log("Fetching Data")
+            let firebaseDb = this.props.firebaseApp.firestore()
+            fetchAll = firebaseDb.collection('index').doc('mapload')
+        }
         trackPromise(
             fetchAll.get().then(doc => {
                 Data = doc.data().data
@@ -53,8 +62,8 @@ class Map extends PureComponent {
 
     renderMap() {
         map = new window.google.maps.Map(document.getElementById('map'), {
-            center: { lat: 15.42, lng: 73.82 },
-            zoom: 12,
+            center: this.state.centre,
+            zoom: this.state.zoom,
             disableDefaultUI: true,
             gestureHandling: 'greedy',
             clickableIcons: false,
@@ -130,6 +139,7 @@ class Map extends PureComponent {
     render() {
         return (
             <div>
+                <SimpleStorage parent={this} blacklist={["showBox", "currentTreeData"]} />
                 <Spinner area="map"/>
                 <div id="map" style={{ height: mapHeight }}>
                     {(this.state.showBox) ? <TreeInfoBox key={this.state.currentTreeData.id} id={this.state.currentTreeData.id} firebaseApp={this.props.firebaseApp}/> : null}
