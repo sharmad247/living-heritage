@@ -68,7 +68,7 @@ class TreeInfo extends Component {
               secondary={this.state.treeData.info.canopyHeight + ' ft'}
             />
           </ListItem>
-          <GalleryView img={this.state.treeData.images} />
+          {this.state.treeData.images ? <GalleryView img={this.state.treeData.images}/> : null}
           <Divider />
 
 
