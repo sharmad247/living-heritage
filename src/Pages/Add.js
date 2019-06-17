@@ -1,19 +1,24 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import AutoSuggest from '../Components/FieldAutosuggest';
-import Input from '@material-ui/core/Input';
-import { Checkbox, List, ListItem, ListItemText, Fab } from '@material-ui/core';
-import CheckIcon from '@material-ui/icons/Check';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import AutoSuggest from '../Components/FieldAutosuggest'
+import Input from '@material-ui/core/Input'
+import { Checkbox, List, ListItem, ListItemText, Fab, Button, IconButton} from '@material-ui/core'
+import CheckIcon from '@material-ui/icons/Check'
 import uuidv1 from 'uuid/v1'
-import * as firebase from 'firebase/app';
-import 'firebase/firestore';
+import * as firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/storage'
 import CommSciMap from './../Components/CommSciMap'
+import Gallery from './../Components/Gallery'
+import FileUploader from 'react-firebase-file-uploader'
+import Progress from '../Components/Progress'
+import Snackbar from '../Components/Snackbar'
 
 const styles = theme => ({
   root: {
@@ -28,7 +33,7 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   input: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit
   },
   fab: {
     margin: theme.spacing.unit,
@@ -38,7 +43,7 @@ const styles = theme => ({
   }
 });
 
-let SciName
+let SciName, uploadFlag=false, uid
 
 class SimpleExpansionPanel extends Component {
   constructor(props) {
@@ -71,7 +76,15 @@ class SimpleExpansionPanel extends Component {
       perimeterProperty: false,
       overgrownBranches: false,
       centerProperty: false,
-      uninhabitedPrivate: false
+      uninhabitedPrivate: false,
+      file: null,
+      filenames: [],
+      downloadURLs: [],
+      isUploading: false,
+      uploadProgress: 0,
+      files: [],
+      disableSubmit: true,
+      uploadSuccess: false
     }
   }
 
@@ -95,15 +108,67 @@ class SimpleExpansionPanel extends Component {
       });
   }
 
+  handlePreview = (event) => {
+    const files = Object.keys(event.target.files).map(function(_) { return event.target.files[_]; })
+    let filesToStore = [];
+
+    if(event.target.files)
+      uploadFlag = true
+    else
+      uploadFlag = false
+
+    console.log(files)
+
+    files.forEach(file => filesToStore.push(file));
+
+    this.setState({
+      files: filesToStore,
+      file: files
+     });
+
+    console.log(this.state.files)
+  }
+
+  startUploadManually = () => {
+    const { files } = this.state;
+    this.handleUploadStart()
+    files.forEach(file => {
+      this.fileUploader.startUpload(file)
+    });
+  }
+
+  handleUploadSuccess = async filename => {
+    const downloadURL = await firebase
+      .storage()
+      .ref("tree_images/"+uid)
+      .child(filename)
+      .getDownloadURL();
+
+    this.setState(oldState => ({
+      filenames: [...oldState.filenames, filename],
+      downloadURLs: [...oldState.downloadURLs, downloadURL],
+      uploadProgress: 100,
+      isUploading: false,
+      disableSubmit: false,
+      uploadSuccess: true
+    }));
+  };
+
+  handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
+  handleProgress = progress => this.setState({ progress });
+  handleUploadError = error => {
+    this.setState({ isUploading: false });
+    console.error(error);
+  };
+
   addTree = () => {
       let pos = this.props.location.position
 
       let db = this.props.location.firebaseApp.firestore()
-      let uid = uuidv1()
 
       //Saves tree UID and coordinates in the index
       db.collection('index').doc('mapload').update({
-        data: firebase.firestore.FieldValue.arrayUnion({"id" : uid, "pos" : {"lat" : pos.lat, "long" : pos.lng} })});
+        data: firebase.firestore.FieldValue.arrayUnion({"id" : uid, "pos" : {"lat" : pos.lat, "long" : pos.lng}, "img" : this.state.downloadURLs[0] })});
 
       //saves main info on tree
       db.collection('trees').doc(uid).set({
@@ -151,7 +216,8 @@ class SimpleExpansionPanel extends Component {
         coordinates: {
           lat: pos.lat,
           lng: pos.lng
-        }
+        },
+        images: this.state.downloadURLs
     }
     ).then(
       this.props.history.push('/')
@@ -163,6 +229,10 @@ class SimpleExpansionPanel extends Component {
     CommonName = CommonName.replace(/ +/g, "")
     SciName = CommSciMap[CommonName]
     this.setState({scientificName: SciName})
+  }
+
+  componentDidMount(){
+    uid = uuidv1()
   }
 
   render() {
@@ -417,19 +487,48 @@ class SimpleExpansionPanel extends Component {
             </List>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <ExpansionPanel disabled>
+
+
+        {/* Image Upload Section */}
+        <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Image Upload</Typography>
           </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <FileUploader
+              accept="image/*"
+              name="image-uploader-multiple"
+              randomizeFilename
+              storageRef={firebase.storage().ref("tree_images/"+uid)}
+              onUploadError={this.handleUploadError}
+              onUploadSuccess={this.handleUploadSuccess}
+              onProgress={this.handleProgress}
+              multiple
+              onChange={this.handlePreview}
+              ref={instance => { this.fileUploader = instance; } }
+            />
+            <label>
+              <Button onClick={this.startUploadManually} variant="contained" component="span" disabled={!uploadFlag} className={classes.button}>
+                Upload
+              </Button>
+            </label>
+          </ExpansionPanelDetails>
+          <ExpansionPanelDetails>
+            <p></p>
+            {this.state.file ? <Gallery img={this.state.file}/> : null}
+          </ExpansionPanelDetails>
+          {this.state.isUploading && <Progress />}
+          {this.state.uploadSuccess && <Snackbar />}
+
+          <br/>
         </ExpansionPanel>
-        <Fab color="primary" aria-label="Save" className={classes.fab} onClick={this.addTree}>
+        <Fab disabled={this.state.disableSubmit} color="primary" aria-label="Save" className={classes.fab} onClick={this.addTree}>
           <CheckIcon />
         </Fab>
       </div>
     );
   }
 }
-
 
 
 SimpleExpansionPanel.propTypes = {

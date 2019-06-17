@@ -50,6 +50,7 @@ class TreeInfoBox extends Component {
                             {temp.info.scientificName}
                         </Typography>
                     </div>
+                    console.log(temp)
                     this.setState({ treeData: temp })
                 }) , 'infobox'
             )
@@ -68,7 +69,7 @@ class TreeInfoBox extends Component {
                     <Paper className={classes.root} elevation={1}>
                         <Grid container spacing={24}>
                             <Grid item xs={3}>
-                                <img id="boxImg" alt="cover" src="https://via.placeholder.com/150?text=Tree+Photo"></img>
+                                <img id="boxImg" alt="cover" src={this.state.treeData.images ? this.state.treeData.images[0] : "https://via.placeholder.com/150?text=Tree+Photo"}></img>
                             </Grid>
                             <Grid item xs={9}>
                                 {this.content}

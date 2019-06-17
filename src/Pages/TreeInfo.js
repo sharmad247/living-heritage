@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText, Divider} from '@material-ui/core';
+import GalleryView from '../Components/GalleryView';
 
 
 const styles = theme => ({
@@ -67,6 +68,19 @@ class TreeInfo extends Component {
               secondary={this.state.treeData.info.canopyHeight + ' ft'}
             />
           </ListItem>
+          <GalleryView img={this.state.treeData.images} />
+          <Divider />
+
+
+
+
+          {/* Health Checks */}
+          <ListItem alignItems="center">
+            <ListItemText
+              primary="Health Checks"
+            />
+          </ListItem>
+
           {
             this.state.treeData.info.flower ?
             <ListItem >
@@ -86,16 +100,6 @@ class TreeInfo extends Component {
             </ListItem> :
             null
           }
-          <Divider />
-
-
-
-          {/* Health Checks */}
-          <ListItem alignItems="center">
-            <ListItemText
-              primary="Health Checks"
-            />
-          </ListItem>
 
           {
             this.state.treeData.healthChecks.sap ?
