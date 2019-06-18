@@ -43,7 +43,7 @@ const styles = theme => ({
   }
 });
 
-let SciName, uploadFlag=false, uid
+let SciName, uploadFlag = false, uid
 
 class SimpleExpansionPanel extends Component {
   constructor(props) {
@@ -77,14 +77,14 @@ class SimpleExpansionPanel extends Component {
       overgrownBranches: false,
       centerProperty: false,
       uninhabitedPrivate: false,
-      file: null,
       filenames: [],
       downloadURLs: [],
       isUploading: false,
       uploadProgress: 0,
       files: [],
       disableSubmit: true,
-      uploadSuccess: false
+      uploadSuccess: false,
+      filesToStore: []
     }
   }
 
@@ -109,24 +109,16 @@ class SimpleExpansionPanel extends Component {
   }
 
   handlePreview = (event) => {
-    const files = Object.keys(event.target.files).map(function(_) { return event.target.files[_]; })
-    let filesToStore = [];
+    const files = Object.keys(event.target.files).map(function (_) { return event.target.files[_]; })
 
-    if(event.target.files)
+    if (event.target.files)
       uploadFlag = true
     else
       uploadFlag = false
 
-    console.log(files)
-
-    files.forEach(file => filesToStore.push(file));
-
     this.setState({
-      files: filesToStore,
-      file: files
-     });
-
-    console.log(this.state.files)
+      files: files
+    });
   }
 
   startUploadManually = () => {
@@ -135,13 +127,12 @@ class SimpleExpansionPanel extends Component {
     files.forEach(file => {
       this.fileUploader.startUpload(file)
     });
-    console.log(uid)
   }
 
   handleUploadSuccess = async filename => {
     const downloadURL = await firebase
       .storage()
-      .ref("tree_images/"+uid)
+      .ref("tree_images/" + uid)
       .child(filename)
       .getDownloadURL();
 
@@ -156,69 +147,70 @@ class SimpleExpansionPanel extends Component {
   };
 
   handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
-  handleProgress = progress => {this.setState({ progress })}
+  handleProgress = progress => { this.setState({ progress }) }
   handleUploadError = error => {
     this.setState({ isUploading: false });
     console.error(error);
   };
 
   addTree = () => {
-      let pos = this.props.location.position
+    let pos = this.props.location.position
 
-      let db = this.props.location.firebaseApp.firestore()
+    let db = this.props.location.firebaseApp.firestore()
 
-      //Saves tree UID and coordinates in the index
-      db.collection('index').doc('mapload').update({
-        data: firebase.firestore.FieldValue.arrayUnion({"id" : uid, "pos" : {"lat" : pos.lat, "long" : pos.lng}, "img" : this.state.downloadURLs[0] })});
+    //Saves tree UID and coordinates in the index
+    db.collection('index').doc('mapload').update({
+      data: firebase.firestore.FieldValue.arrayUnion({ "id": uid, "pos": { "lat": pos.lat, "long": pos.lng }, "img": this.state.downloadURLs[0] })
+    });
 
-      //saves main info on tree
-      db.collection('trees').doc(uid).set({
-        info: {
-          genericName: this.state.genericName,
-          scientificName: this.state.scientificName, //string,
-          // age: null,
-          flower: this.state.flower, //true/false,
-          fruit: this.state.fruit, //true/false,
-          diameter: this.state.circumference/3.1415, //num,
-          height: this.state.height, //num,
-          canopyHeight: this.state.canopyHeight, //num,
-        },
-        healthChecks: {
-          cutBranches: this.state.cutBranches, //t/f,  //Do you see broken or cut branches.
-          sap: this.state.sap, //t/f,                    //Do you see sap oozing out from the tree trunk.
-          branchCrack: this.state.branchCrack, //t/f,   //Do you see holes or cracks in the branches or tree.
-          brownmud: this.state.brownmud, //t/f, //Brown mud like deposit on the tree or the trunk.
-          tumours: this.state.tumours, //t/f, //Tumors, bulges or swellings noticed on the trunk or branches.
-          fungus: this.state.fungus, //t/f,  //Fungus visible on the branches or on the trunk.
-          wilting: this.state.wilting, //t/f,  //Curling wilting or dis-colourisation notice in the leaves.
-          saprophyte: this.state.saprophyte, //t/f,  //Saprophyte or epiphyte growing on the tree.
-          fire: this.state.fire, //t/f,  //Signs of fire being burnt near the tree. (anywhere under the canopy of the tree)
-          stripped: this.state.stripped, //t/f,  //Outermost layer of the tree trunk stripped.
-          construction: this.state.construction, //t/f, //Perimeter or construction built around the tree.
-        },
-        updates: {
-          //createdUser: //UUID,
-          //createdTime = new Date(), //timezone?,
-          //updatedUser : tree["Updated By"],
-          //updatedAt : tree["Updated At"],
-        },
-        environmentalRisks: {
-          overgrownBranches: this.state.overgrownBranches, //t/f,  //Overgrown branches close to electric/telephone wires.
-          cutTrees: this.state.cutBranches, //t/f, //Signs of other trees being cut down in the area.
-          highway: this.state.highway, //t/f,  //Tree on a highway stretch.
-          industrial: this.state.industrial, //t/f,  //Trees located near industrial lands.
-          publicLand: this.state.publicLand, //t/f, //Tree on public land.
-          widened: this.state.widened,//t/f, //Tree on an inner road likely to be widened.
-          inhabitedPrivate: this.state.inhabitedPrivate, //t/f,  //Tree in an inhabited private property.
-          uninhabitedPrivate: this.state.uninhabitedPrivate, //t/f,  //Tree in an habited private property.
-          centerProperty: this.state.centerProperty, //t/f,  //Tree located in the center of the property
-          perimeterProperty: this.state.perimeterProperty //t/f, //Tree located at the perimeter of the property.
-         },
-        coordinates: {
-          lat: pos.lat,
-          lng: pos.lng
-        },
-        images: this.state.downloadURLs
+    //saves main info on tree
+    db.collection('trees').doc(uid).set({
+      info: {
+        genericName: this.state.genericName,
+        scientificName: this.state.scientificName, //string,
+        // age: null,
+        flower: this.state.flower, //true/false,
+        fruit: this.state.fruit, //true/false,
+        diameter: this.state.circumference / 3.1415, //num,
+        height: this.state.height, //num,
+        canopyHeight: this.state.canopyHeight, //num,
+      },
+      healthChecks: {
+        cutBranches: this.state.cutBranches, //t/f,  //Do you see broken or cut branches.
+        sap: this.state.sap, //t/f,                    //Do you see sap oozing out from the tree trunk.
+        branchCrack: this.state.branchCrack, //t/f,   //Do you see holes or cracks in the branches or tree.
+        brownmud: this.state.brownmud, //t/f, //Brown mud like deposit on the tree or the trunk.
+        tumours: this.state.tumours, //t/f, //Tumors, bulges or swellings noticed on the trunk or branches.
+        fungus: this.state.fungus, //t/f,  //Fungus visible on the branches or on the trunk.
+        wilting: this.state.wilting, //t/f,  //Curling wilting or dis-colourisation notice in the leaves.
+        saprophyte: this.state.saprophyte, //t/f,  //Saprophyte or epiphyte growing on the tree.
+        fire: this.state.fire, //t/f,  //Signs of fire being burnt near the tree. (anywhere under the canopy of the tree)
+        stripped: this.state.stripped, //t/f,  //Outermost layer of the tree trunk stripped.
+        construction: this.state.construction, //t/f, //Perimeter or construction built around the tree.
+      },
+      updates: {
+        //createdUser: //UUID,
+        //createdTime = new Date(), //timezone?,
+        //updatedUser : tree["Updated By"],
+        //updatedAt : tree["Updated At"],
+      },
+      environmentalRisks: {
+        overgrownBranches: this.state.overgrownBranches, //t/f,  //Overgrown branches close to electric/telephone wires.
+        cutTrees: this.state.cutBranches, //t/f, //Signs of other trees being cut down in the area.
+        highway: this.state.highway, //t/f,  //Tree on a highway stretch.
+        industrial: this.state.industrial, //t/f,  //Trees located near industrial lands.
+        publicLand: this.state.publicLand, //t/f, //Tree on public land.
+        widened: this.state.widened,//t/f, //Tree on an inner road likely to be widened.
+        inhabitedPrivate: this.state.inhabitedPrivate, //t/f,  //Tree in an inhabited private property.
+        uninhabitedPrivate: this.state.uninhabitedPrivate, //t/f,  //Tree in an habited private property.
+        centerProperty: this.state.centerProperty, //t/f,  //Tree located in the center of the property
+        perimeterProperty: this.state.perimeterProperty //t/f, //Tree located at the perimeter of the property.
+      },
+      coordinates: {
+        lat: pos.lat,
+        lng: pos.lng
+      },
+      images: this.state.downloadURLs
     }
     ).then(
       console.log(uid),
@@ -227,13 +219,13 @@ class SimpleExpansionPanel extends Component {
   }
 
   nameCallback = (CommonName) => {
-    this.setState({genericName: CommonName})
+    this.setState({ genericName: CommonName })
     CommonName = CommonName.replace(/ +/g, "")
     SciName = CommSciMap[CommonName]
-    this.setState({scientificName: SciName})
+    this.setState({ scientificName: SciName })
   }
 
-  componentDidMount(){
+  componentDidMount() {
     uid = uuidv1()
   }
 
@@ -249,7 +241,7 @@ class SimpleExpansionPanel extends Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <div className={classes.container}>
-              <AutoSuggest nameCallback={this.nameCallback}/>
+              <AutoSuggest nameCallback={this.nameCallback} />
               <Input
                 onChange={this.handleChange}
                 placeholder="Scientific Name"
@@ -282,7 +274,7 @@ class SimpleExpansionPanel extends Component {
                 fullWidth
                 name="diameter"
                 disabled
-                value={!this.state.circumference ? "Diameter" : (this.state.circumference/3.1415).toFixed(2) + " in"}
+                value={!this.state.circumference ? "Diameter" : (this.state.circumference / 3.1415).toFixed(2) + " in"}
               />
               <Input
                 onChange={this.handleChange}
@@ -501,15 +493,14 @@ class SimpleExpansionPanel extends Component {
               accept="image/*"
               name="image-uploader-multiple"
               randomizeFilename
-              storageRef={firebase.storage().ref("tree_images/"+uid)}
+              storageRef={firebase.storage().ref("tree_images/" + uid)}
               onUploadError={this.handleUploadError}
               onUploadSuccess={this.handleUploadSuccess}
               onProgress={this.handleProgress}
               multiple
               onChange={this.handlePreview}
-              ref={instance => { this.fileUploader = instance; } }
-              maxWidth={500}
-              maxHeight={500}
+              ref={instance => { this.fileUploader = instance; }}
+              maxWidth={700}
             />
             <label>
               <Button onClick={this.startUploadManually} variant="contained" component="span" disabled={!uploadFlag} className={classes.button}>
@@ -519,12 +510,12 @@ class SimpleExpansionPanel extends Component {
           </ExpansionPanelDetails>
           <ExpansionPanelDetails>
             <p></p>
-            {this.state.file ? <Gallery img={this.state.file}/> : null}
+            {this.state.files ? <Gallery img={this.state.files} /> : null}
           </ExpansionPanelDetails>
           {this.state.isUploading && <Progress />}
           {this.state.uploadSuccess && <Snackbar />}
 
-          <br/>
+          <br />
         </ExpansionPanel>
         <Fab disabled={this.state.disableSubmit} color="primary" aria-label="Save" className={classes.fab} onClick={this.addTree}>
           <CheckIcon />
