@@ -39,7 +39,7 @@ function Gallery(props) {
   const { classes } = props;
   const data = props.img
   let imgData = []
-  for (let [key, value] of Object.entries(data)) {
+  for (let [, value] of Object.entries(data)) {
     imgData = imgData.concat(value)
   }
 
@@ -48,7 +48,7 @@ function Gallery(props) {
       <GridList cellHeight={160} className={classes.gridList} cols={3}>
         {imgData.map((img, temp) => (
           <GridListTile key={temp++} cols={1}>
-            <img src={URL.createObjectURL(img)} />
+            <img src={URL.createObjectURL(img)} alt='' />
           </GridListTile>
         ))}
       </GridList>

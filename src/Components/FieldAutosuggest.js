@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import deburr from 'lodash/deburr';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
@@ -10,7 +9,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 
 import suggestions from './TreeSuggestions.js'
-import CommSciMap from './CommSciMap.js'
 
 function renderInputComponent(inputProps) {
   const { classes, inputRef = () => {}, ref, ...other } = inputProps;
@@ -30,6 +28,10 @@ function renderInputComponent(inputProps) {
       {...other}
     />
   );
+}
+
+function shouldRenderSuggestions(value) {
+  return value.trim().length > 2;
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
@@ -55,23 +57,22 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
   );
 }
 
+function escapeRegexCharacters(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function getSuggestions(value) {
-  const inputValue = deburr(value.trim()).toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
 
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-        const keep =
-          count < 5 && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue;
+  const escapedValue = escapeRegexCharacters(value.trim());
+  
+  if (escapedValue === '') {
+    return [];
+  }
 
-        if (keep) {
-          count += 1;
-        }
+  const regex = new RegExp('\\b' + escapedValue, 'i');
+  
+  return suggestions.filter(suggestion => regex.test(getSuggestionValue(suggestion)));
 
-        return keep;
-      });
 }
 
 let genericName
@@ -116,9 +117,12 @@ class FieldAutosuggest extends React.Component {
   };
 
   handleSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: getSuggestions(value),
-    });
+    setTimeout(
+      this.setState({
+        suggestions: getSuggestions(value),
+      }),
+      200
+    )
   };
 
   handleSuggestionsClearRequested = () => {
@@ -144,6 +148,7 @@ class FieldAutosuggest extends React.Component {
       onSuggestionsClearRequested: this.handleSuggestionsClearRequested,
       getSuggestionValue,
       renderSuggestion,
+      shouldRenderSuggestions
     };
 
     return (
@@ -154,7 +159,7 @@ class FieldAutosuggest extends React.Component {
             classes,
             placeholder: 'Common Name (type to search)',
             value: this.state.single,
-            onChange: this.handleChange('single')
+            onChange: this.handleChange('single'),
           }}
           theme={{
             container: classes.container,
@@ -178,3 +183,4 @@ FieldAutosuggest.propTypes = {
 };
 
 export default withStyles(styles)(FieldAutosuggest);
+

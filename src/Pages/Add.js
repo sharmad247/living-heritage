@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import AutoSuggest from '../Components/FieldAutosuggest'
 import Input from '@material-ui/core/Input'
-import { Checkbox, List, ListItem, ListItemText, Fab, Button, IconButton} from '@material-ui/core'
+import { Checkbox, List, ListItem, ListItemText, Fab, Button } from '@material-ui/core'
 import CheckIcon from '@material-ui/icons/Check'
 import uuidv1 from 'uuid/v1'
 import * as firebase from 'firebase/app'
@@ -135,6 +135,7 @@ class SimpleExpansionPanel extends Component {
     files.forEach(file => {
       this.fileUploader.startUpload(file)
     });
+    console.log(uid)
   }
 
   handleUploadSuccess = async filename => {
@@ -155,7 +156,7 @@ class SimpleExpansionPanel extends Component {
   };
 
   handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
-  handleProgress = progress => this.setState({ progress });
+  handleProgress = progress => {this.setState({ progress })}
   handleUploadError = error => {
     this.setState({ isUploading: false });
     console.error(error);
@@ -220,6 +221,7 @@ class SimpleExpansionPanel extends Component {
         images: this.state.downloadURLs
     }
     ).then(
+      console.log(uid),
       this.props.history.push('/')
     )
   }
@@ -506,6 +508,8 @@ class SimpleExpansionPanel extends Component {
               multiple
               onChange={this.handlePreview}
               ref={instance => { this.fileUploader = instance; } }
+              maxWidth={500}
+              maxHeight={500}
             />
             <label>
               <Button onClick={this.startUploadManually} variant="contained" component="span" disabled={!uploadFlag} className={classes.button}>
