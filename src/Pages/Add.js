@@ -19,6 +19,7 @@ import Gallery from './../Components/Gallery'
 import FileUploader from 'react-firebase-file-uploader'
 import Progress from '../Components/Progress'
 import Snackbar from '../Components/Snackbar'
+import Resizer from 'react-image-file-resizer'
 
 const styles = theme => ({
   root: {
@@ -97,7 +98,7 @@ class SimpleExpansionPanel extends Component {
     });
   }
 
-  handleCheck = (event, name) => {
+  handleCheck = ( name) => {
     if (!this.state[name])
       this.setState({
         [name]: true
@@ -110,21 +111,39 @@ class SimpleExpansionPanel extends Component {
 
   handlePreview = (event) => {
     const files = Object.keys(event.target.files).map(function (_) { return event.target.files[_]; })
+    let filesToStore = []
 
     if (event.target.files)
+    {
       uploadFlag = true
+      files.forEach(file=>{
+        Resizer.imageFileResizer(
+          file,
+          800,
+          800,
+          'PNG',
+          100,
+          0,
+          blob => {
+            filesToStore.push(blob)
+          },
+          'blob'
+        );
+      })
+      this.setState({
+        filesToStore: filesToStore,
+        files: files
+      });
+    }
     else
       uploadFlag = false
-
-    this.setState({
-      files: files
-    });
   }
 
   startUploadManually = () => {
-    const { files } = this.state;
+    const { filesToStore } = this.state;
     this.handleUploadStart()
-    files.forEach(file => {
+    console.log(uid)
+    filesToStore.forEach(file => {
       this.fileUploader.startUpload(file)
     });
   }
@@ -500,7 +519,6 @@ class SimpleExpansionPanel extends Component {
               multiple
               onChange={this.handlePreview}
               ref={instance => { this.fileUploader = instance; }}
-              maxWidth={700}
             />
             <label>
               <Button onClick={this.startUploadManually} variant="contained" component="span" disabled={!uploadFlag} className={classes.button}>
@@ -510,7 +528,7 @@ class SimpleExpansionPanel extends Component {
           </ExpansionPanelDetails>
           <ExpansionPanelDetails>
             <p></p>
-            {this.state.files ? <Gallery img={this.state.files} /> : null}
+            {this.state.files[0] ? <Gallery img={this.state.files} /> : null}
           </ExpansionPanelDetails>
           {this.state.isUploading && <Progress />}
           {this.state.uploadSuccess && <Snackbar />}

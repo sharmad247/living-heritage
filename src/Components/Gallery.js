@@ -38,15 +38,11 @@ const styles = theme => ({
 function Gallery(props) {
   const { classes } = props;
   const data = props.img
-  let imgData = []
-  for (let [, value] of Object.entries(data)) {
-    imgData = imgData.concat(value)
-  }
 
   return (
     <div className={classes.root}>
       <GridList cellHeight={160} className={classes.gridList} cols={3}>
-        {imgData.map((img, temp) => (
+        {data.map((img, temp) => (
           <GridListTile key={temp++} cols={1}>
             <img src={URL.createObjectURL(img)} alt='' />
           </GridListTile>
