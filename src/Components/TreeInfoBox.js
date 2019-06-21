@@ -34,7 +34,7 @@ class TreeInfoBox extends Component {
     content = null
     tree = null
     componentDidMount() {
-        this.tree = this.firebaseDb.collection('trees').doc(this.state.id.toString())
+        this.tree = this.firebaseDb.collection('tree_data').doc(this.state.id.toString())
         this.fetchTree()
     }
 

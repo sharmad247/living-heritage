@@ -50,7 +50,7 @@ class Map extends PureComponent {
         if(!fetchAll) {
             console.log("Fetching Data")
             let firebaseDb = this.props.firebaseApp.firestore()
-            fetchAll = firebaseDb.collection('index').doc('mapload')
+            fetchAll = firebaseDb.collection('tree_index').doc('mapload')
         }
         trackPromise(
             fetchAll.get().then(doc => {
