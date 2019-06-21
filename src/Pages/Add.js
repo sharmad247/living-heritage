@@ -98,14 +98,14 @@ class SimpleExpansionPanel extends Component {
     });
   }
 
-  handleCheck = ( name) => {
+  handleCheck = (event, name) => {
     if (!this.state[name])
       this.setState({
         [name]: true
       });
     else
       this.setState({
-        [name]: false,
+        [name]: false
       });
   }
 
