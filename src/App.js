@@ -19,7 +19,7 @@ import SignIn from './Pages/SignIn';
 
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-142591629-1');
-ReactGA.pageview(window.location.pathname + window.location.search);
+ReactGA.pageview(window.location.pathname);
 
 let firebaseApp = firebase.initializeApp(Config)
 let firebaseAppAuth = firebaseApp.auth()
