@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import useForceUpdate from 'use-force-update';
+import ReactGA from 'react-ga'
 
 const styles = theme => ({
     root: {
@@ -82,6 +83,13 @@ function AddTreeBox(props) {
         }
     })
 
+    let gaEvent = () => {
+        ReactGA.event({
+            category: 'User',
+            action: 'Next - Add tree box'
+          });
+    }
+
     return (
         <div className="ContainerStyle">
             <Paper className={classes.root} elevation={1}>
@@ -94,7 +102,7 @@ function AddTreeBox(props) {
                     <Button variant="outlined" onClick={handleCancel}>
                         Cancel
                     </Button>
-                    <Button disabled={buttonDisabled} variant="outlined" component={MyLink} className={classes.next}>
+                    <Button disabled={buttonDisabled} variant="outlined" onClick={gaEvent} component={MyLink} className={classes.next}>
                         Next
                     </Button>
                 </div>

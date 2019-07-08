@@ -20,6 +20,7 @@ import FileUploader from 'react-firebase-file-uploader'
 import Progress from '../Components/Progress'
 import Snackbar from '../Components/Snackbar'
 import Resizer from 'react-image-file-resizer'
+import ReactGA from 'react-ga'
 
 const styles = theme => ({
   root: {
@@ -110,6 +111,10 @@ class SimpleExpansionPanel extends Component {
   }
 
   handlePreview = (event) => {
+    ReactGA.event({
+      category: 'User',
+      action: 'Images Selected'
+    });
     const files = Object.keys(event.target.files).map(function (_) { return event.target.files[_]; })
     let filesToStore = []
 
@@ -140,6 +145,7 @@ class SimpleExpansionPanel extends Component {
   }
 
   startUploadManually = () => {
+    this.gaEvent()
     const { filesToStore } = this.state;
     this.handleUploadStart()
     console.log(uid)
@@ -171,6 +177,13 @@ class SimpleExpansionPanel extends Component {
     this.setState({ isUploading: false });
     console.error(error);
   };
+
+  gaEvent = () => {
+    ReactGA.event({
+      category: 'User',
+      action: 'Upload - Add Tree'
+    });
+  } 
 
   addTree = () => {
     let pos = this.props.location.position
@@ -233,6 +246,10 @@ class SimpleExpansionPanel extends Component {
     }
     ).then(
       console.log(uid),
+      ReactGA.event({
+        category: 'User',
+        action: 'Tree Added'
+      }),
       this.props.history.push('/')
     )
   }
