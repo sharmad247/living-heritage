@@ -18,6 +18,7 @@ import Config from './FirebaseConfig';
 import SignIn from './Pages/SignIn';
 
 import ReactGA from 'react-ga';
+import { initializePush } from './Components/Initialize';
 ReactGA.initialize('UA-142591629-1');
 ReactGA.pageview(window.location.pathname);
 
@@ -71,6 +72,7 @@ class App extends Component {
     return (
       <React.Fragment>
         {user ? authUser : unauthUser}
+        {user ? initializePush() : unauthUser}
       </React.Fragment>
     );
   }
