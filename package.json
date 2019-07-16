@@ -9,6 +9,7 @@
     "@material-ui/icons": "^3.0.2",
     "autosuggest-highlight": "^3.1.1",
     "firebase": "^6.1.0",
+    "firebase-admin": "^8.2.0",
     "formik": "^1.5.4",
     "image-compressor": "^1.2.0",
     "react": "^16.8.4",
@@ -41,5 +42,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "serviceworker-webpack-plugin": "^1.0.1"
+  }
 }
