@@ -191,12 +191,12 @@ class SimpleExpansionPanel extends Component {
     let db = this.props.location.firebaseApp.firestore()
 
     //Saves tree UID and coordinates in the index
-    db.collection('tree_index').doc('mapload').update({
+    db.collection('trees_index').doc('mapload').update({
       data: firebase.firestore.FieldValue.arrayUnion({ "id": uid, "pos": { "lat": pos.lat, "long": pos.lng }, "img": this.state.downloadURLs[0] })
     });
 
     //saves main info on tree
-    db.collection('tree_data').doc(uid).set({
+    db.collection('trees').doc(uid).set({
       info: {
         genericName: this.state.genericName,
         scientificName: this.state.scientificName, //string,

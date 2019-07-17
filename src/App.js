@@ -24,15 +24,12 @@ ReactGA.pageview(window.location.pathname);
 
 let firebaseApp = firebase.initializeApp(Config)
 let firebaseAppAuth = firebaseApp.auth()
-<<<<<<< HEAD
+let messaging
 if (firebase.messaging.isSupported()) {
-  let messaging = firebase.messaging()
+  messaging = firebase.messaging()
   messaging.usePublicVapidKey("BP1bB1VIB1zziviY38GM1DoEiwm-gVGXtl2yqbjGYzrhuxMRdMhv1hh8CBVnrt_ggFPBhX87Cr4NY8IzYAKvX50")
 }
-=======
-let messaging = firebase.messaging()
-messaging.usePublicVapidKey("BP1bB1VIB1zziviY38GM1DoEiwm-gVGXtl2yqbjGYzrhuxMRdMhv1hh8CBVnrt_ggFPBhX87Cr4NY8IzYAKvX50")
->>>>>>> 100fa5ad9d815d8968200b80e8896c4ae4cfce38
+
 //let messaging = firebase.messaging()
 let providers = {
   googleProvider: new firebase.auth.GoogleAuthProvider(),
