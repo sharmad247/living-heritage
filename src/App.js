@@ -78,7 +78,9 @@ class App extends Component {
 
 
   componentDidMount() {
-    this.getFCMToken()
+    if (firebase.messaging.isSupported()) {
+      this.getFCMToken()
+    }
   }
 
   render() {
@@ -101,7 +103,7 @@ class App extends Component {
     const authUser =
       <MuiThemeProvider theme={theme}>
         {(this.state.page === 0) ? <Home action={this.handleStateChange} firebaseApp={firebaseApp} {...this.props} /> : null}
-        {(this.state.page === 1) ? <Volunteer action={this.handleStateChange} {...this.props} /> : null}
+        {(this.state.page === 1) ? <Volunteer action={this.handleStateChange} firebaseApp={firebaseApp} {...this.props} /> : null}
         {(this.state.page === 2) ? <Adopt action={this.handleStateChange} {...this.props} /> : null}
         {(this.state.page === 3) ? <Sponsor action={this.handleStateChange} {...this.props} /> : null}
       </MuiThemeProvider>

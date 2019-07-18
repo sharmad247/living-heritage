@@ -1,8 +1,10 @@
 import React from 'react'
 import Header from '../Components/Header'
 import Navbar from '../Components/Navbar';
-import ComingSoon from './ComingSoon';
+import VolunteerMap from '../Components/VolunteerMap'
 import ReactGA from 'react-ga'
+import {Route} from 'react-router-dom'
+import TreeInfo from './TreeInfo'
 
 export default function Volunteer(props) {
   return (
@@ -14,8 +16,11 @@ export default function Volunteer(props) {
         })
       }
       <Header user={props.user} signout={props.signOut}/>
-      <ComingSoon title="Volunteer"/>
-      <Navbar action={props.action} value={1}/>
+      <div className="ContainerStyle">
+      <Route exact path="/" render={() => <VolunteerMap firebaseApp={props.firebaseApp}/>}/>
+        <Route path="/treeinfo" component={TreeInfo}/>
+      </div>
+      <Route exact path="/" render={() => <Navbar action={props.action} value={1} />} />
     </div>
   )
 }
