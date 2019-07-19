@@ -11,6 +11,8 @@
     "firebase": "^6.1.0",
     "firebase-admin": "^8.2.0",
     "formik": "^1.5.4",
+    "grpc": "^1.22.2",
+    "http2": "^3.3.7",
     "image-compressor": "^1.2.0",
     "react": "^16.8.4",
     "react-autosuggest": "^9.4.3",

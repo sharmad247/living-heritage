@@ -206,6 +206,7 @@ class SimpleExpansionPanel extends Component {
         diameter: this.state.circumference / 3.1415, //num,
         height: this.state.height, //num,
         canopyHeight: this.state.canopyHeight, //num,
+        otmId: uid
       },
       healthChecks: {
         cutBranches: this.state.cutBranches, //t/f,  //Do you see broken or cut branches.

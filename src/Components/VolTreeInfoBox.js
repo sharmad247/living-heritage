@@ -21,7 +21,7 @@ const styles = theme => ({
 });
 
 
-class TreeInfoBox extends Component {
+class VolTreeInfoBox extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -62,8 +62,9 @@ class TreeInfoBox extends Component {
         return (
             <div className="ContainerStyle">
                 <Link to={{
-                    pathname: "/treeinfo",
-                    treedata: {...this.state.treeData}
+                    pathname: "/voltreeinfo",
+                    treedata: {...this.state.treeData},
+                    firebaseApp: this.props.firebaseApp
                 }}>
                     <Spinner area="infobox" />
                     <Paper className={classes.root} elevation={1}>
@@ -73,7 +74,7 @@ class TreeInfoBox extends Component {
                             </Grid>
                             <Grid item xs={9}>
                                 {this.content}
-                            </Grid> 
+                            </Grid>
                         </Grid>
                     </Paper>
                 </Link>
@@ -83,8 +84,8 @@ class TreeInfoBox extends Component {
 }
 
 
-TreeInfoBox.propTypes = {
+VolTreeInfoBox.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TreeInfoBox);
+export default withStyles(styles)(VolTreeInfoBox);

@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react'
 import { trackPromise } from 'react-promise-tracker';
-import TreeInfoBox from '../Components/TreeInfoBox'
+import VolTreeInfoBox from './VolTreeInfoBox'
 import cMarker from '../Assets/tree.png'
 import cMarkerYellow from '../Assets/tree_yellow.png'
 import cMarkerOrange from '../Assets/tree_orange.png'
 import cMarkerRed from '../Assets/tree_red.png'
 import GpsFixed from '@material-ui/icons/GpsFixed';
 import Fab from '@material-ui/core/Fab';
-import AddTreeBox from '../Components/AddTreeBox';
 import Spinner from '../Components/LoadingSpinner';
 import SimpleStorage from 'react-simple-storage'
 import ReactGA from 'react-ga'
@@ -171,7 +170,7 @@ class Volunteer extends PureComponent {
         <SimpleStorage parent={this} blacklist={["showBox", "currentTreeData"]} />
         <Spinner area="map" />
         <div id="map" style={{ height: mapHeight }}>
-          {(this.state.showBox) ? <TreeInfoBox key={this.state.currentTreeData.id} id={this.state.currentTreeData.id} firebaseApp={this.props.firebaseApp} /> : null}
+          {(this.state.showBox) ? <VolTreeInfoBox key={this.state.currentTreeData.id} id={this.state.currentTreeData.id} firebaseApp={this.props.firebaseApp} /> : null}
         </div>
         <Fab color="secondary" aria-label="Center" size="small" className="GpsFix" onClick={this.handleCentre}>
           <GpsFixed />
