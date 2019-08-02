@@ -223,9 +223,9 @@ class SimpleExpansionPanel extends Component {
       },
       updates: {
         //createdUser: //UUID,
-        //createdTime = new Date(), //timezone?,
+        createdTime: new Date(), //timezone?,
         //updatedUser : tree["Updated By"],
-        //updatedAt : tree["Updated At"],
+        updatedAt : new Date()
       },
       environmentalRisks: {
         overgrownBranches: this.state.overgrownBranches, //t/f,  //Overgrown branches close to electric/telephone wires.
@@ -313,7 +313,7 @@ class SimpleExpansionPanel extends Component {
                 disabled
                 value={!this.state.circumference ? "Diameter" : (this.state.circumference / 3.1415).toFixed(2) + " in"}
               />
-              <Input
+              {/* <Input
                 onChange={this.handleChange}
                 placeholder="Height (in feet)"
                 className={classes.input}
@@ -332,7 +332,7 @@ class SimpleExpansionPanel extends Component {
                 }}
                 fullWidth
                 name="canopyHeight"
-              />
+              /> */}
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>

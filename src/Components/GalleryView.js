@@ -47,7 +47,7 @@ function GalleryView(props) {
     <div className={classes.root}>
       <GridList cellHeight={160} className={classes.gridList} cols={3}>
         {imgData.map((img, temp) => (
-          <GridListTile key={temp++} cols={1}>
+          <GridListTile onClick={props.onClick} key={temp++} cols={1}>
             <img src={img}  alt=''/>
           </GridListTile>
         ))}

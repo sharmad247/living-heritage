@@ -21,7 +21,6 @@ import Progress from '../Components/Progress'
 import Snackbar from '../Components/Snackbar'
 import Resizer from 'react-image-file-resizer'
 import ReactGA from 'react-ga'
-import { auth } from 'firebase-admin';
 import GalleryView from '../Components/GalleryView';
 import withFirebaseAuth from 'react-with-firebase-auth'
 

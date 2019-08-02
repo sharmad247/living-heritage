@@ -5,7 +5,6 @@ import { List, ListItem, ListItemText, Divider, Paper} from '@material-ui/core';
 import GalleryView from '../Components/GalleryView';
 import FABEdit from '../Components/FABEdit';
 
-
 const styles = theme => ({
   root: {
       width: '100%',
@@ -59,7 +58,7 @@ class VolTreeInfo extends Component {
                 secondary={this.state.treeData.info.diameter ? this.state.treeData.info.diameter * 2 * 3.1415 + ' in' : ' in'} 
               />
             </ListItem>
-            <ListItem >
+            {/* <ListItem >
                 <ListItemText
                   primary="Height"
                   secondary={this.state.treeData.info.height + ' ft'} 
@@ -70,8 +69,34 @@ class VolTreeInfo extends Component {
                 primary="Canopy Height"
                 secondary={this.state.treeData.info.canopyHeight + ' ft'}
               />
+            </ListItem> */}
+            {this.state.treeData.images ? <GalleryView onClick={() => this.setState({ isOpen: true })} img={this.state.treeData.images}/> : null}
+               
+              {this.state.isOpen && (
+                <Lightbox
+                  mainSrc={images[photoIndex]}
+                  nextSrc={images[(photoIndex + 1) % images.length]}
+                  prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+                  onCloseRequest={() => this.setState({ isOpen: false })}
+                  onMovePrevRequest={() =>
+                    this.setState({
+                      photoIndex: (photoIndex + images.length - 1) % images.length,
+                    })
+                  }
+                  onMoveNextRequest={() =>
+                    this.setState({
+                      photoIndex: (photoIndex + 1) % images.length,
+                    })
+                  }
+                />
+              )}
+            <Divider />
+            <ListItem >
+              <ListItemText
+                primary="Last Updated"
+                secondary={this.state.treeData.updates.updatedAt}
+              />
             </ListItem>
-            {this.state.treeData.images ? <GalleryView img={this.state.treeData.images}/> : null}
             <Divider />
 
 
