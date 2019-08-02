@@ -12,9 +12,6 @@ const styles = {
       width: '100%',
       height: '100%',
       backgroundColor: '#FFFFFF'
-  },
-  lightbox: {
-    //marginTop: '56px'
   }
 }
 
@@ -29,7 +26,6 @@ class TreeInfo extends Component {
       isOpen: false,
       photoIndex: 0
     }
-    this.initialState = this.state
   }
 
 

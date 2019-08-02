@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText, Divider, Paper} from '@material-ui/core';
 import GalleryView from '../Components/GalleryView';
 import FABEdit from '../Components/FABEdit';
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 
 const styles = theme => ({
   root: {
@@ -19,12 +21,16 @@ class VolTreeInfo extends Component {
     this.state = {
       treeData : this.props.location.treedata,
       fb : this.props.location.firebaseApp,
-      hasError: false
+      hasError: false,
+      isOpen: false,
+      photoIndex: 0
     }
   }
 
 
   render() {
+    const images = this.state.treeData.images
+    const { photoIndex } = this.state;
     return (
       <React.Fragment>
         <Paper>
