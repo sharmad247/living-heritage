@@ -236,8 +236,8 @@ class SimpleExpansionPanel extends Component {
         widened: this.state.widened,//t/f, //Tree on an inner road likely to be widened.
         inhabitedPrivate: this.state.inhabitedPrivate, //t/f,  //Tree in an inhabited private property.
         uninhabitedPrivate: this.state.uninhabitedPrivate, //t/f,  //Tree in an habited private property.
-        centerProperty: this.state.centerProperty, //t/f,  //Tree located in the center of the property
-        perimeterProperty: this.state.perimeterProperty //t/f, //Tree located at the perimeter of the property.
+        // centerProperty: this.state.centerProperty, //t/f,  //Tree located in the center of the property
+        // perimeterProperty: this.state.perimeterProperty //t/f, //Tree located at the perimeter of the property.
       },
       coordinates: {
         lat: pos.lat,
@@ -502,7 +502,7 @@ class SimpleExpansionPanel extends Component {
                 <ListItemText primary={`Tree in an uninhabited private property.`} />
               </ListItem>
 
-              <ListItem button onClick={event => this.handleCheck(event, "centerProperty")}>
+              {/* <ListItem button onClick={event => this.handleCheck(event, "centerProperty")}>
                 <Checkbox
                   checked={this.state.centerProperty}
                 />
@@ -514,7 +514,7 @@ class SimpleExpansionPanel extends Component {
                   checked={this.state.perimeterProperty}
                 />
                 <ListItemText primary={`Tree located at the perimeter of the property.`} />
-              </ListItem>
+              </ListItem> */}
             </List>
           </ExpansionPanelDetails>
         </ExpansionPanel>
