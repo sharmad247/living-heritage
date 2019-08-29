@@ -5,6 +5,8 @@ import { List, ListItem, ListItemText, Divider, Paper, Button} from '@material-u
 import GalleryView from '../Components/GalleryView';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
+import FABDelete from '../Components/FABDelete';
+import * as firebase from 'firebase/app'
 
 
 const styles = {
@@ -26,6 +28,13 @@ class TreeInfo extends Component {
       isOpen: false,
       photoIndex: 0
     }
+  }
+
+  matchUser = () => {
+    if(this.state.treeData.updates)
+      return false
+    else if(this.state.treeData.updates.createdUser === firebase.auth().currentUser.email)
+      return true
   }
 
 
@@ -356,6 +365,7 @@ class TreeInfo extends Component {
               null
             }
           </List>
+          {this.matchUser() ? <FABDelete /> : null}
         </Paper>
       </React.Fragment>
     )

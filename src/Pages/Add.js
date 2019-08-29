@@ -14,6 +14,7 @@ import uuidv1 from 'uuid/v1'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
+import 'firebase/auth'
 import CommSciMap from './../Components/CommSciMap'
 import Gallery from './../Components/Gallery'
 import FileUploader from 'react-firebase-file-uploader'
@@ -222,7 +223,7 @@ class SimpleExpansionPanel extends Component {
         construction: this.state.construction, //t/f, //Perimeter or construction built around the tree.
       },
       updates: {
-        //createdUser: //UUID,
+        createdUser: firebase.auth().currentUser.email,
         createdTime: new Date(), //timezone?,
         //updatedUser : tree["Updated By"],
         updatedAt : new Date()

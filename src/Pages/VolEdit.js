@@ -6,23 +6,15 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import AutoSuggest from '../Components/FieldAutosuggest'
-import Input from '@material-ui/core/Input'
 import { Checkbox, List, ListItem, ListItemText, Fab, Button } from '@material-ui/core'
 import CheckIcon from '@material-ui/icons/Check'
-import uuidv1 from 'uuid/v1'
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
 import CommSciMap from './../Components/CommSciMap'
-import Gallery from './../Components/Gallery'
-import FileUploader from 'react-firebase-file-uploader'
-import Progress from '../Components/Progress'
-import Snackbar from '../Components/Snackbar'
 import Resizer from 'react-image-file-resizer'
 import ReactGA from 'react-ga'
 import GalleryView from '../Components/GalleryView';
-import withFirebaseAuth from 'react-with-firebase-auth'
 
 const styles = theme => ({
     root: {
@@ -222,7 +214,7 @@ class SimpleExpansionPanel extends Component {
             updates: {
                 //createdUser: user.uid,
                 //createdTime: this.state.updates.createdTime, //timezone?,
-                //updatedUser: firebaseAppAuth.name,
+                updatedUser: firebase.auth().currentUser.email,
                 updatedAt: new Date(),
             },
             environmentalRisks: {
