@@ -5,8 +5,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Public from '@material-ui/icons/Public';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import SentimentSatisfiedAlt from '@material-ui/icons/SentimentSatisfiedAlt';
-import CheckCircle from '@material-ui/icons/CheckCircle';
+import Help from '@material-ui/icons/Help';
 
 const styles = {
   root: {
@@ -44,8 +43,7 @@ class Navbar extends React.Component {
       >
         <BottomNavigationAction label="Discover" icon={<Public />} />
         <BottomNavigationAction label="Volunteer" icon={<FavoriteIcon />} />
-        <BottomNavigationAction label="Adopt" icon={<CheckCircle />} />
-        <BottomNavigationAction label="Donate" icon={<SentimentSatisfiedAlt />} />
+        <BottomNavigationAction label="Help" icon={<Help />} />
       </BottomNavigation>
     );
   }

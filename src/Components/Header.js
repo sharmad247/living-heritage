@@ -19,6 +19,7 @@ import logo from '../Assets/logo.png'
 const styles = {
   root: {
     flexGrow: 1,
+    boxShadow: '0 0px 0px 0px rgba(255, 105, 135, 0) !important;'
   },
   grow: {
     flexGrow: 1,

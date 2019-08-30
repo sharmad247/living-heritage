@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../Components/Header'
 import Navbar from '../Components/Navbar';
-import ComingSoon from './ComingSoon';
+import HelpContainer from '../Components/HelpContainer'
 import ReactGA from 'react-ga'
 
 export default function Adopt(props) {
@@ -10,11 +10,11 @@ export default function Adopt(props) {
       {
         ReactGA.event({
           category: 'User',
-          action: 'Adopt'
+          action: 'Help'
         })
       }
       <Header user={props.user} signout={props.signOut}/>
-      <ComingSoon title="Adopt"/>
+      <HelpContainer ClassName="ContainerStyle"/>
       <Navbar action={props.action} value={2}/>
     </div>
   )
