@@ -94,7 +94,7 @@ function AddTreeBox(props) {
         <div className="ContainerStyle">
             <Paper className={classes.root} elevation={1}>
                 <Typography variant="body2" gutterBottom>
-                    Step 1: Tap to add a marker. <br/>
+                    Step 1: Tap on the map to add a marker. <br/>
                     Step 2: Long press and drag to move it in exact position.
                 </Typography>
                 <br/>
