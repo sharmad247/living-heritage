@@ -4,6 +4,10 @@ import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
+import cMarkerYellow from '../Assets/tree_yellow.png'
+import cMarkerOrange from '../Assets/tree_orange.png'
+import cMarkerRed from '../Assets/tree_red.png'
+import { Divider, List, ListItem } from '@material-ui/core';
 
 const ExpansionPanel = withStyles({
     root: {
@@ -79,6 +83,9 @@ class HelpExpansionPanel extends React.Component {
                                     <li>You can toggle between ‘Map’ view and ‘Satellite’ view.</li>
                                 </ul>
                             </Typography>
+                            <br />
+                            <Divider variant="middle" />
+                            <br /><br />
                             <img width='100%' src={'../Assets/help/help1.png'} /><br /><br />
                             <Typography>
                                 <ul>
@@ -86,12 +93,17 @@ class HelpExpansionPanel extends React.Component {
                                     <li>Pinch to zoom in on the map to get a more precise location.</li>
                                 </ul>
                             </Typography>
+                            <br />
+                            <Divider variant="middle" />
+                            <br /><br />
                             <img width='100%' src={'../Assets/help/help3.png'} /><br /><br />
                             <Typography>
                                 <ul>
                                     <li>Follow the instructions on the screen.</li>
                                 </ul>
                             </Typography>
+                            <br />
+                            <Divider variant="middle" />
                             <br /><br />
                             <img width='100%' src={'../Assets/help/help4.png'} /><br /><br />
                             <Typography>
@@ -99,6 +111,8 @@ class HelpExpansionPanel extends React.Component {
                                     <li>Fill in all the details and tick the Healtch Checks and Environmental Checks carefully.</li>
                                 </ul>
                             </Typography>
+                            <br />
+                            <Divider variant="middle" />
                             <br /><br />
                             <img width='100%' src={'../Assets/help/help5.png'} /><br /><br />
                             <Typography>
@@ -120,9 +134,38 @@ class HelpExpansionPanel extends React.Component {
                         <Typography>Volunteering for Health Checks</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <Typography>
-                            Coming Soon
-                        </Typography>
+                        <div>
+                            <img width='100%' src={'../Assets/help/help7.png'} /><br />
+                            <Typography>
+                                <ul>
+                                    <li>Go to the ‘Volunteer’ section of the app.</li>
+                                    <li>Select on the red or orange trees that are due for a health check.</li>
+                                    <img src={cMarkerRed} />
+                                    <img src={cMarkerOrange} />
+                                    <img src={cMarkerYellow} />
+                                </ul>
+                                Note: Red trees require more attention compared to the orange and yellow trees.
+                            </Typography>
+                            <br />
+                            <Divider variant="middle" />
+                            <br /><br />
+                            <img width='100%' src={'../Assets/help/help8.png'} /><br />
+                            <Typography>
+                                <ul>
+                                    <li>Click on the blue ‘Edit Tree’ icon.</li>
+                                    <li>Tick the Health and Environmental checks applicable for the tree.</li>
+                                </ul>
+                            </Typography>
+                            <br />
+                            <Divider variant="middle" />
+                            <br /><br />
+                            <img width='100%' src={'../Assets/help/help9.png'} /><br />
+                            <Typography>
+                                <ul>
+                                    <li>Click on the green ‘Tick’ sign to save entries.</li>
+                                </ul>
+                            </Typography>
+                        </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel
@@ -135,8 +178,18 @@ class HelpExpansionPanel extends React.Component {
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <Typography>
-                            Coming Soon
-            </Typography>
+                            <List>
+                                <ListItem>
+                                    <img src={cMarkerRed} /> - Last Health Check done 6+ months ago. <br />
+                                </ListItem>
+                                <ListItem>
+                                    <img src={cMarkerOrange} /> - Last Health Check done 3-6 months ago. <br />
+                                </ListItem>
+                                <ListItem>
+                                    <img src={cMarkerYellow} /> - Last Health Check done 1-3 months ago. <br />
+                                </ListItem>
+                            </List>
+                        </Typography>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </div>
