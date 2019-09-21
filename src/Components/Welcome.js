@@ -26,7 +26,7 @@ export default function Welcome() {
             </p>
             <p>
                 <Typography>
-                    We&quot;re losing our precious natural heritage and support system vital for our survival at an alarming rate and protecting them is the need of the hour. Now more than ever!<br />
+                    We&rsquo;re losing our precious natural heritage and support system vital for our survival at an alarming rate and protecting them is the need of the hour. Now more than ever!<br />
                 </Typography>
             </p>
             <p>

@@ -86,6 +86,28 @@ class HelpExpansionPanel extends React.Component {
                                     <li>Pinch to zoom in on the map to get a more precise location.</li>
                                 </ul>
                             </Typography>
+                            <img width='100%' src={'../Assets/help/help3.png'} /><br /><br />
+                            <Typography>
+                                <ul>
+                                    <li>Follow the instructions on the screen.</li>
+                                </ul>
+                            </Typography>
+                            <br /><br />
+                            <img width='100%' src={'../Assets/help/help4.png'} /><br /><br />
+                            <Typography>
+                                <ul>
+                                    <li>Fill in all the details and tick the Healtch Checks and Environmental Checks carefully.</li>
+                                </ul>
+                            </Typography>
+                            <br /><br />
+                            <img width='100%' src={'../Assets/help/help5.png'} /><br /><br />
+                            <Typography>
+                                <ul>
+                                    <li>Choose the images you have clicked of the tree, and upload them.</li>
+                                    <li>After uploading the images, the tick mark turns green as shown in the image below. Click on it to save the tree on the map.</li>
+                                    <img width='70' src={'../Assets/help/help6.png'} />
+                                </ul>
+                            </Typography>
                         </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -100,7 +122,7 @@ class HelpExpansionPanel extends React.Component {
                     <ExpansionPanelDetails>
                         <Typography>
                             Coming Soon
-            </Typography>
+                        </Typography>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel
