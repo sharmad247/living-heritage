@@ -10,7 +10,7 @@ const styles = theme => ({
     fab: {
         margin: theme.spacing.unit,
         position: 'fixed',
-        bottom: 77,
+        bottom: 88,
         right: 21,
     },
     extendedIcon: {

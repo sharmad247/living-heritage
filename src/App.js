@@ -8,7 +8,7 @@ import './App.css';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
 import blue from '@material-ui/core/colors/blue';
-
+import red from '@material-ui/core/colors/red';
 
 import withFirebaseAuth from 'react-with-firebase-auth'
 import * as firebase from 'firebase/app';
@@ -93,6 +93,7 @@ class App extends Component {
       palette: {
         primary: teal,
         secondary: blue,
+        error: red,
       },
       typography: {
         useNextVariants: true,

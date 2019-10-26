@@ -6,6 +6,7 @@ import GalleryView from '../Components/GalleryView';
 import FABEdit from '../Components/FABEdit';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
+import FABAlert from '../Components/FABAlert';
 
 const styles = theme => ({
   root: {
@@ -368,6 +369,7 @@ class VolTreeInfo extends Component {
             }
           </List>
           <FABEdit state={this.state.treeData} firebaseApp={this.state.fb}/>
+          <FABAlert treeData={this.state.treeData}/>
         </Paper>
       </React.Fragment>
     )

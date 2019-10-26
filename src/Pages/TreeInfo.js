@@ -7,6 +7,7 @@ import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import FABDelete from '../Components/FABDelete';
 import * as firebase from 'firebase/app'
+import FABAlert from '../Components/FABAlert';
 
 
 const styles = {
@@ -378,6 +379,8 @@ class TreeInfo extends Component {
             }
           </List>
           {this.matchUser() ? <FABDelete /> : null}
+          <FABAlert treeData={this.state.treeData}/>
+          {console.log(this.state.treeData)}
         </Paper>
       </React.Fragment>
     )
