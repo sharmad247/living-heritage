@@ -43,7 +43,7 @@ class VolTreeInfo extends Component {
             </ListItem>
             <ListItem >
               <ListItemText
-                primary="Generic Name"
+                primary="Common Name"
                 secondary={this.state.treeData.info.genericName}
               />
             </ListItem>
@@ -110,12 +110,13 @@ class VolTreeInfo extends Component {
                 />
               )}
             <Divider />
-            <ListItem >
+            {/* 29th Oct 2019 Update Fix , last updated on 2nd Aug 2019*/}
+            {/* <ListItem >
               <ListItemText
                 primary="Last Updated"
                 secondary={this.state.treeData.updates.updatedAt}
               />
-            </ListItem>
+            </ListItem> */}
             <Divider />
 
 

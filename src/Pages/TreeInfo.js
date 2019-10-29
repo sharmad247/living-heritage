@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { List, ListItem, ListItemText, Divider, Paper, Button} from '@material-ui/core';
+import { List, ListItem, ListItemText, Divider, Paper, Button } from '@material-ui/core';
 import GalleryView from '../Components/GalleryView';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
@@ -12,9 +12,9 @@ import FABAlert from '../Components/FABAlert';
 
 const styles = {
   root: {
-      width: '100%',
-      height: '100%',
-      backgroundColor: '#FFFFFF'
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#FFFFFF'
   }
 }
 
@@ -24,7 +24,7 @@ class TreeInfo extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      treeData : this.props.location.treedata,
+      treeData: this.props.location.treedata,
       hasError: false,
       isOpen: false,
       photoIndex: 0
@@ -53,7 +53,7 @@ class TreeInfo extends Component {
             </ListItem>
             <ListItem >
               <ListItemText
-                primary="Generic Name"
+                primary="Common Name"
                 secondary={this.state.treeData.info.genericName}
               />
             </ListItem>
@@ -66,13 +66,13 @@ class TreeInfo extends Component {
             <ListItem >
               <ListItemText
                 primary="Diameter"
-                secondary={this.state.treeData.info.diameter + ' in'} 
+                secondary={this.state.treeData.info.diameter + ' in'}
               />
             </ListItem>
             <ListItem >
               <ListItemText
                 primary="Circumference"
-                secondary={this.state.treeData.info.diameter ? this.state.treeData.info.diameter * 2 * 3.1415 + ' in' : ' in'} 
+                secondary={this.state.treeData.info.diameter ? this.state.treeData.info.diameter * 2 * 3.1415 + ' in' : ' in'}
               />
             </ListItem>
             {/* <ListItem >
@@ -87,45 +87,46 @@ class TreeInfo extends Component {
                 secondary={this.state.treeData.info.canopyHeight + ' ft'}
               />
             </ListItem> */}
-            {this.state.treeData.images ? <GalleryView onClick={() => this.setState({ isOpen: true })} img={this.state.treeData.images}/> : null}
-               
-              {this.state.isOpen && (
-                <Lightbox
-                  mainSrc={images[photoIndex]}
-                  nextSrc={images[(photoIndex + 1) % images.length]}
-                  prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-                  onCloseRequest={() => this.setState({ isOpen: false })}
-                  onMovePrevRequest={() =>
-                    this.setState({
-                      photoIndex: (photoIndex + images.length - 1) % images.length,
-                    })
-                  }
-                  onMoveNextRequest={() =>
-                    this.setState({
-                      photoIndex: (photoIndex + 1) % images.length,
-                    })
-                  }
-                  reactModalStyle={
-                    {
-                      overlay: {
-                        position: 'fixed',
-                        top: "56px",
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: 'rgba(255, 255, 255, 0.75)'
-                      }
+            {this.state.treeData.images ? <GalleryView onClick={() => this.setState({ isOpen: true })} img={this.state.treeData.images} /> : null}
+
+            {this.state.isOpen && (
+              <Lightbox
+                mainSrc={images[photoIndex]}
+                nextSrc={images[(photoIndex + 1) % images.length]}
+                prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+                onCloseRequest={() => this.setState({ isOpen: false })}
+                onMovePrevRequest={() =>
+                  this.setState({
+                    photoIndex: (photoIndex + images.length - 1) % images.length,
+                  })
+                }
+                onMoveNextRequest={() =>
+                  this.setState({
+                    photoIndex: (photoIndex + 1) % images.length,
+                  })
+                }
+                reactModalStyle={
+                  {
+                    overlay: {
+                      position: 'fixed',
+                      top: "56px",
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: 'rgba(255, 255, 255, 0.75)'
                     }
                   }
-                />
-              )}
+                }
+              />
+            )}
             <Divider />
-            <ListItem >
+            {/* 29th Oct 2019 Update Fix , last updated on 2nd Aug 2019*/}
+            {/* <ListItem >
               <ListItemText
                 primary="Last Updated"
                 secondary={this.state.treeData.updates.updatedAt}
               />
-            </ListItem>
+            </ListItem> */}
             <Divider />
 
 
@@ -140,132 +141,132 @@ class TreeInfo extends Component {
 
             {
               this.state.treeData.info.flower ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Flowers at the time of initial survey." 
+                    secondary="Flowers at the time of initial survey."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.info.fruit ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Fruits at the time of initial survey." 
+                    secondary="Fruits at the time of initial survey."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.sap ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Sap oozing from tree trunk." 
+                    secondary="Sap oozing from tree trunk."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.fungus ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Fungi noticed on the tree." 
+                    secondary="Fungi noticed on the tree."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.saprophyte ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tree serving as a saprophyte/spiphyte to live on." 
+                    secondary="Tree serving as a saprophyte/spiphyte to live on."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.brownmud ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Brown mud-like deposits on the trunk/branch of the tree." 
+                    secondary="Brown mud-like deposits on the trunk/branch of the tree."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.stripped ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Outermost layer of the trunk stripped off." 
+                    secondary="Outermost layer of the trunk stripped off."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.wilting ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Curling, wilting or discolouration noticed on the tree or the leaves." 
+                    secondary="Curling, wilting or discolouration noticed on the tree or the leaves."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.tumours ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tumors, bulges or swellings seen on the trunk or bark of the tree." 
+                    secondary="Tumors, bulges or swellings seen on the trunk or bark of the tree."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.branchCrack ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Damage, holes or cracks noticed on the branch." 
+                    secondary="Damage, holes or cracks noticed on the branch."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.cutBranches ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Broken or cut branches." 
+                    secondary="Broken or cut branches."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.construction ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Construction or perimeter built around the tree." 
+                    secondary="Construction or perimeter built around the tree."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.healthChecks.fire ?
-              <ListItem>
+                <ListItem>
                   <ListItemText
-                    secondary="Visible signs of fire being burnt near or around the tree." 
+                    secondary="Visible signs of fire being burnt near or around the tree."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
             <Divider />
 
@@ -275,107 +276,107 @@ class TreeInfo extends Component {
             {/* Environmental Risks */}
             <ListItem alignItems="center">
               <ListItemText
-                  primary="Environmental Risks"
+                primary="Environmental Risks"
               />
             </ListItem>
             {
               this.state.treeData.environmentalRisks.widened ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tree on inner road likely to be widened." 
+                    secondary="Tree on inner road likely to be widened."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.environmentalRisks.highway ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tree on a highway stretch." 
+                    secondary="Tree on a highway stretch."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.environmentalRisks.publicLand ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tree on public land." 
+                    secondary="Tree on public land."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.environmentalRisks.industrial ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tree located near industrial land." 
+                    secondary="Tree located near industrial land."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.environmentalRisks.inhabitedPrivate ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tree in an inhabited private property." 
+                    secondary="Tree in an inhabited private property."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.environmentalRisks.cutTrees ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Signs of other trees being cut down in the area." 
+                    secondary="Signs of other trees being cut down in the area."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.environmentalRisks.perimeterProperty ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tree located near the perimeter of the property." 
+                    secondary="Tree located near the perimeter of the property."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.environmentalRisks.overgrownBranches ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Overgrown branches close to electric/telephone wires." 
+                    secondary="Overgrown branches close to electric/telephone wires."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.environmentalRisks.centerProperty ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tree located in the center of the property." 
+                    secondary="Tree located in the center of the property."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
 
             {
               this.state.treeData.environmentalRisks.uninhabitedPrivate ?
-              <ListItem >
+                <ListItem >
                   <ListItemText
-                    secondary="Tree in uninhabited private property." 
+                    secondary="Tree in uninhabited private property."
                   />
-              </ListItem> :
-              null
+                </ListItem> :
+                null
             }
           </List>
           {this.matchUser() ? <FABDelete /> : null}
