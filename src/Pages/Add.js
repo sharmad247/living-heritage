@@ -230,7 +230,7 @@ class SimpleExpansionPanel extends Component {
       },
       environmentalRisks: {
         overgrownBranches: this.state.overgrownBranches, //t/f,  //Overgrown branches close to electric/telephone wires.
-        cutTrees: this.state.cutBranches, //t/f, //Signs of other trees being cut down in the area.
+        cutTrees: this.state.cutTrees, //t/f, //Signs of other trees being cut down in the area.
         highway: this.state.highway, //t/f,  //Tree on a highway stretch.
         industrial: this.state.industrial, //t/f,  //Trees located near industrial lands.
         publicLand: this.state.publicLand, //t/f, //Tree on public land.
