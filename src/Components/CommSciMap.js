@@ -1099,7 +1099,8 @@ let CommSciMap =
         "Orange" : "Citrus sinensis",
         "Citrus" : "Citrus ",
         "Shinyxylosma" : "Xylosma congestum",
-        "Lilac" : "Syringa "
+        "Lilac" : "Syringa ",
+        "Unknown" : "Unknown"
     }
 
 export default CommSciMap
